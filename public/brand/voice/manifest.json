@@ -1,0 +1,352 @@
+[
+  {
+    "id": "aha-excited",
+    "text": "[excited] Aha!",
+    "tag": "excited",
+    "file": "brand/voice/aha-excited.mp3",
+    "durationMs": 993
+  },
+  {
+    "id": "aha-realize",
+    "text": "[curious] A-haaa.",
+    "tag": "curious",
+    "file": "brand/voice/aha-realize.mp3",
+    "durationMs": 1123
+  },
+  {
+    "id": "hmm",
+    "text": "[curious] Hmm.",
+    "tag": "curious",
+    "file": "brand/voice/hmm.mp3",
+    "durationMs": 940
+  },
+  {
+    "id": "hmm-doubt",
+    "text": "[doubtful] Hmmm?",
+    "tag": "doubtful",
+    "file": "brand/voice/hmm-doubt.mp3",
+    "durationMs": 705
+  },
+  {
+    "id": "nonono",
+    "text": "[worried] No no no no no.",
+    "tag": "worried",
+    "file": "brand/voice/nonono.mp3",
+    "durationMs": 1541
+  },
+  {
+    "id": "yesyesyes",
+    "text": "[excited] Yes yes yes!",
+    "tag": "excited",
+    "file": "brand/voice/yesyesyes.mp3",
+    "durationMs": 1698
+  },
+  {
+    "id": "very-nice",
+    "text": "[delighted] Very nice!",
+    "tag": "delighted",
+    "file": "brand/voice/very-nice.mp3",
+    "durationMs": 1593
+  },
+  {
+    "id": "great-success",
+    "text": "[proud] Great success!",
+    "tag": "proud",
+    "file": "brand/voice/great-success.mp3",
+    "durationMs": 1724
+  },
+  {
+    "id": "wow",
+    "text": "[surprised] Wow.",
+    "tag": "surprised",
+    "file": "brand/voice/wow.mp3",
+    "durationMs": 1045
+  },
+  {
+    "id": "woah",
+    "text": "[surprised] Woah, woah, woah.",
+    "tag": "surprised",
+    "file": "brand/voice/woah.mp3",
+    "durationMs": 2142
+  },
+  {
+    "id": "oof",
+    "text": "[disgusted] Oof.",
+    "tag": "disgusted",
+    "file": "brand/voice/oof.mp3",
+    "durationMs": 1045
+  },
+  {
+    "id": "ecch",
+    "text": "[disgusted] Ecch.",
+    "tag": "disgusted",
+    "file": "brand/voice/ecch.mp3",
+    "durationMs": 1228
+  },
+  {
+    "id": "laugh",
+    "text": "[laughing] Ha ha haa!",
+    "tag": "laughing",
+    "file": "brand/voice/laugh.mp3",
+    "durationMs": 1175
+  },
+  {
+    "id": "chuckle",
+    "text": "[chuckling] Heh heh heh.",
+    "tag": "chuckling",
+    "file": "brand/voice/chuckle.mp3",
+    "durationMs": 2011
+  },
+  {
+    "id": "tsk",
+    "text": "[disdainful] Tsk, tsk, tsk.",
+    "tag": "disdainful",
+    "file": "brand/voice/tsk.mp3",
+    "durationMs": 1698
+  },
+  {
+    "id": "boo",
+    "text": "[disdainful] Boo!",
+    "tag": "disdainful",
+    "file": "brand/voice/boo.mp3",
+    "durationMs": 1358
+  },
+  {
+    "id": "pfft",
+    "text": "[sarcastic] Pfft.",
+    "tag": "sarcastic",
+    "file": "brand/voice/pfft.mp3",
+    "durationMs": 1411
+  },
+  {
+    "id": "sigh",
+    "text": "[sighing] Ahhh.",
+    "tag": "sighing",
+    "file": "brand/voice/sigh.mp3",
+    "durationMs": 888
+  },
+  {
+    "id": "groan",
+    "text": "[groaning] Ughhh.",
+    "tag": "groaning",
+    "file": "brand/voice/groan.mp3",
+    "durationMs": 888
+  },
+  {
+    "id": "gasp",
+    "text": "[gasping] Gah!",
+    "tag": "gasping",
+    "file": "brand/voice/gasp.mp3",
+    "durationMs": 1358
+  },
+  {
+    "id": "ooh",
+    "text": "[curious] Ooh.",
+    "tag": "curious",
+    "file": "brand/voice/ooh.mp3",
+    "durationMs": 757
+  },
+  {
+    "id": "eh",
+    "text": "[confused] Eh?",
+    "tag": "confused",
+    "file": "brand/voice/eh.mp3",
+    "durationMs": 993
+  },
+  {
+    "id": "what",
+    "text": "[surprised] What?!",
+    "tag": "surprised",
+    "file": "brand/voice/what.mp3",
+    "durationMs": 1045
+  },
+  {
+    "id": "no-way",
+    "text": "[surprised] No waaay.",
+    "tag": "surprised",
+    "file": "brand/voice/no-way.mp3",
+    "durationMs": 1593
+  },
+  {
+    "id": "mmm",
+    "text": "[satisfied] Mmm.",
+    "tag": "satisfied",
+    "file": "brand/voice/mmm.mp3",
+    "durationMs": 1358
+  },
+  {
+    "id": "ai-ai-ai",
+    "text": "[worried] Ai ai ai.",
+    "tag": "worried",
+    "file": "brand/voice/ai-ai-ai.mp3",
+    "durationMs": 1097
+  },
+  {
+    "id": "oh-no",
+    "text": "[worried] Oh nooo.",
+    "tag": "worried",
+    "file": "brand/voice/oh-no.mp3",
+    "durationMs": 1541
+  },
+  {
+    "id": "okay",
+    "text": "[calm] Okayy.",
+    "tag": "calm",
+    "file": "brand/voice/okay.mp3",
+    "durationMs": 1045
+  },
+  {
+    "id": "nice-slow",
+    "text": "[relaxed] Niiice.",
+    "tag": "relaxed",
+    "file": "brand/voice/nice-slow.mp3",
+    "durationMs": 1646
+  },
+  {
+    "id": "you-see",
+    "text": "[confident] You see?",
+    "tag": "confident",
+    "file": "brand/voice/you-see.mp3",
+    "durationMs": 1097
+  },
+  {
+    "id": "of-course",
+    "text": "[confident] Of course!",
+    "tag": "confident",
+    "file": "brand/voice/of-course.mp3",
+    "durationMs": 1228
+  },
+  {
+    "id": "my-friend",
+    "text": "[happy] My friend!",
+    "tag": "happy",
+    "file": "brand/voice/my-friend.mp3",
+    "durationMs": 1515
+  },
+  {
+    "id": "listen",
+    "text": "[emphasis] Listen to me.",
+    "tag": "emphasis",
+    "file": "brand/voice/listen.mp3",
+    "durationMs": 1593
+  },
+  {
+    "id": "is-danger",
+    "text": "[nervous] Is danger.",
+    "tag": "nervous",
+    "file": "brand/voice/is-danger.mp3",
+    "durationMs": 1358
+  },
+  {
+    "id": "is-illegal",
+    "text": "[whispering] Iss illegal.",
+    "tag": "whispering",
+    "file": "brand/voice/is-illegal.mp3",
+    "durationMs": 1228
+  },
+  {
+    "id": "stupid-law",
+    "text": "[sarcastic] Stupid law.",
+    "tag": "sarcastic",
+    "file": "brand/voice/stupid-law.mp3",
+    "durationMs": 1306
+  },
+  {
+    "id": "who-cares",
+    "text": "[indifferent] Who cares?",
+    "tag": "indifferent",
+    "file": "brand/voice/who-cares.mp3",
+    "durationMs": 1228
+  },
+  {
+    "id": "amazing",
+    "text": "[excited] Amazing!",
+    "tag": "excited",
+    "file": "brand/voice/amazing.mp3",
+    "durationMs": 1228
+  },
+  {
+    "id": "disaster",
+    "text": "[hysterical] Disaster!",
+    "tag": "hysterical",
+    "file": "brand/voice/disaster.mp3",
+    "durationMs": 1463
+  },
+  {
+    "id": "finally",
+    "text": "[satisfied] Finally.",
+    "tag": "satisfied",
+    "file": "brand/voice/finally.mp3",
+    "durationMs": 1097
+  },
+  {
+    "id": "let-me-think",
+    "text": "[curious] Let me think.",
+    "tag": "curious",
+    "file": "brand/voice/let-me-think.mp3",
+    "durationMs": 1593
+  },
+  {
+    "id": "gotcha",
+    "text": "[proud] Ha! Gotcha.",
+    "tag": "proud",
+    "file": "brand/voice/gotcha.mp3",
+    "durationMs": 1698
+  },
+  {
+    "id": "no-problem",
+    "text": "[relaxed] No problem.",
+    "tag": "relaxed",
+    "file": "brand/voice/no-problem.mp3",
+    "durationMs": 1515
+  },
+  {
+    "id": "big-fat-fine",
+    "text": "[scared] Big fat fine!",
+    "tag": "scared",
+    "file": "brand/voice/big-fat-fine.mp3",
+    "durationMs": 2351
+  },
+  {
+    "id": "shame",
+    "text": "[disdainful] Shame on you.",
+    "tag": "disdainful",
+    "file": "brand/voice/shame.mp3",
+    "durationMs": 1593
+  },
+  {
+    "id": "bravo",
+    "text": "[delighted] Bravo!",
+    "tag": "delighted",
+    "file": "brand/voice/bravo.mp3",
+    "durationMs": 1280
+  },
+  {
+    "id": "wawaweewa",
+    "text": "[excited] Wa wa wee wa!",
+    "tag": "excited",
+    "file": "brand/voice/wawaweewa.mp3",
+    "durationMs": 1881
+  },
+  {
+    "id": "chenqui",
+    "text": "[grateful] Chenqui!",
+    "tag": "grateful",
+    "file": "brand/voice/chenqui.mp3",
+    "durationMs": 1228
+  },
+  {
+    "id": "jagshemash",
+    "text": "[happy] Jagshemash!",
+    "tag": "happy",
+    "file": "brand/voice/jagshemash.mp3",
+    "durationMs": 1541
+  },
+  {
+    "id": "bye-bye",
+    "text": "[happy] Bye bye!",
+    "tag": "happy",
+    "file": "brand/voice/bye-bye.mp3",
+    "durationMs": 1541
+  }
+]

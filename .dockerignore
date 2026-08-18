@@ -1,0 +1,6 @@
+node_modules
+out
+whisper.cpp
+.git
+.env
+**/*.log

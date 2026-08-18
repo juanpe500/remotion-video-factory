@@ -1,0 +1,4 @@
+flowchart LR
+  A([:bot: AI output]) --> B{:shield: Disclosed?}
+  B -->|yes| C[:shield-check: Compliant]
+  B -->|no| D[:zap: Liable]

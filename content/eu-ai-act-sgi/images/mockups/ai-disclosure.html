@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  :root {
+    --bg: #04070A;
+    --green: #39FF88;
+    --cyan: #4DE8FF;
+    --line: #16261e;
+    --dim: #6f8a7d;
+    --panel: #081310;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1280px; height: 720px;
+    font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    background:
+      radial-gradient(1000px 500px at 80% -20%, rgba(77,232,255,0.08), transparent 60%),
+      var(--bg);
+    color: #dff5ea; overflow: hidden;
+    padding: 34px 38px;
+  }
+  .card {
+    height: 100%; display: grid; grid-template-columns: 1.15fr 1fr; gap: 26px;
+    background: linear-gradient(180deg, #081310, #050b09);
+    border: 1px solid var(--line); border-radius: 18px;
+    box-shadow: 0 30px 90px rgba(0,0,0,0.5); padding: 26px;
+  }
+
+  /* ---- LEFT: the AI-generated asset with its visible disclosures ---- */
+  .asset { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid #1d3428; }
+  /* Procedural "AI-generated" subject (swap: drop a real licensed AI image at
+     assets/ai-subject.jpg and it takes over; onerror falls back to this bg). */
+  .subject { position: absolute; inset: 0; }
+  .subject::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(60% 55% at 32% 30%, #ffd27a 0%, rgba(255,120,90,0.55) 32%, transparent 62%),
+      radial-gradient(50% 60% at 72% 68%, #6a7bff 0%, rgba(120,80,255,0.5) 38%, transparent 66%),
+      radial-gradient(80% 80% at 60% 20%, #22d3ee 0%, transparent 55%),
+      conic-gradient(from 200deg at 50% 60%, #0b1b3a, #3a0b4a, #08243a, #0b1b3a);
+    filter: saturate(1.15) contrast(1.05);
+  }
+  .subject::after { /* organic AI-ish grain via SVG turbulence */
+    content: ""; position: absolute; inset: 0; mix-blend-mode: overlay; opacity: 0.5;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  .subject img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  /* visible badge — Art. 50(4)/(5): clear & distinguishable disclosure */
+  .badge {
+    position: absolute; left: 16px; bottom: 16px; z-index: 3;
+    display: inline-flex; align-items: center; gap: 9px;
+    background: rgba(4,7,10,0.82); backdrop-filter: blur(4px);
+    border: 1.5px solid var(--green); color: var(--green);
+    padding: 9px 14px; border-radius: 999px;
+    font-size: 16px; font-weight: 700; letter-spacing: 1px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.5);
+  }
+  .badge .spark { font-size: 15px; }
+
+  /* C2PA "cr" pin — Art. 50(2): machine-readable + detectable provenance */
+  .cr {
+    position: absolute; top: 14px; right: 14px; z-index: 3;
+    width: 40px; height: 40px; border-radius: 11px;
+    background: rgba(255,255,255,0.92); color: #111;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 17px; letter-spacing: -0.5px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.45);
+    clip-path: polygon(0 0, 72% 0, 100% 28%, 100% 100%, 0 100%);
+  }
+
+  /* ---- RIGHT: the machine-readable provenance manifest ---- */
+  .manifest { display: flex; flex-direction: column; }
+  .mhead { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .mhead .pin {
+    width: 26px; height: 26px; border-radius: 7px; background: #eef2f0; color: #111;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px;
+    clip-path: polygon(0 0, 72% 0, 100% 28%, 100% 100%, 0 100%);
+  }
+  .mhead .t { font-size: 19px; font-weight: 700; color: #f2fff8; }
+  .fname { color: var(--dim); font-size: 13.5px; margin: 2px 0 18px; }
+
+  .row { display: flex; justify-content: space-between; align-items: baseline;
+         padding: 11px 0; border-bottom: 1px solid #0e1a15; font-size: 14.5px; }
+  .row .k { color: var(--dim); }
+  .row .v { color: #cfe7db; text-align: right; }
+  .row .v.ai { color: var(--cyan); font-weight: 700; }
+  .ok { color: var(--green); }
+  .ok::before { content: "\2713\00a0"; }
+
+  .legal {
+    margin-top: auto; padding-top: 16px;
+    border-top: 1px dashed #24422f;
+  }
+  .legal .h { color: var(--green); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .legal ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .legal li { font-size: 13px; color: #a9c6ba; display: flex; gap: 8px; }
+  .legal li b { color: var(--green); font-weight: 700; white-space: nowrap; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="asset">
+      <div class="subject">
+        <img src="assets/ai-subject.jpg" alt="" onerror="this.style.display='none'" />
+      </div>
+      <div class="cr">cr</div>
+      <div class="badge"><span class="spark">&#9670;</span> AI-GENERATED</div>
+    </div>
+
+    <div class="manifest">
+      <div class="mhead">
+        <div class="pin">cr</div>
+        <div class="t">Content Credentials</div>
+      </div>
+      <div class="fname">campaign-hero-2026.png &middot; C2PA v2 manifest</div>
+
+      <div class="row"><span class="k">Produced by</span><span class="v ai">AI &mdash; generative model</span></div>
+      <div class="row"><span class="k">Model</span><span class="v">gpt-image-1</span></div>
+      <div class="row"><span class="k">Issued</span><span class="v">2026-08-18 14:07 UTC</span></div>
+      <div class="row"><span class="k">Machine-readable</span><span class="v ok">C2PA embedded</span></div>
+      <div class="row"><span class="k">Detectable</span><span class="v ok">as AI-generated</span></div>
+      <div class="row"><span class="k">Visible disclosure</span><span class="v ok">on asset</span></div>
+
+      <div class="legal">
+        <div class="h">EU AI Act &middot; Article 50</div>
+        <ul>
+          <li><b>&sect;50(2)</b> marked machine-readable &amp; detectable as artificial</li>
+          <li><b>&sect;50(4)</b> disclosed as AI-generated / manipulated</li>
+          <li><b>&sect;50(5)</b> clear &amp; distinguishable, at first exposure</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

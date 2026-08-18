@@ -1,0 +1,8 @@
+[sarcastic] As of August second, your AI product is now illegal. [laughing] And you have no idea why!
+[confident] The EU AI Act — its transparency rules went into force earlier this month. [emphasis] If your product writes copy, makes images, or creates any content your users see, [whispering] you are distributing "Synthetically Generated Information." [worried] You don't disclose this? [shouting] You are liable for deceptive practices! [disdainful] A big, fat fine.
+[excited] So! Here is what you tell your AI to build — today.
+[emphasis] One: non-removable, AI-generated labels on every output. [confident] Watermarks, disclaimers, metadata tags.
+[emphasis] Two: hard consent before user input touches a model. [angry] No pre-checked boxes! [sarcastic] Explicit opt-in, my friend.
+[emphasis] Three: an immutable generation log — timestamp, model, input — for every output you produce.
+[proud] The builders with this log, they demonstrate compliance. [disdainful] The ones without it? [mocking] They demonstrate negligence. [laughing] Ha!
+[confident] Your AI does not read legislation. [emphasis] That is your job. [determined] Direct it to comply, [whispering] before someone directs you to shut it down.

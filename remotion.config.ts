@@ -12,3 +12,5 @@ Config.setRspack(true);
 Config.setVideoImageFormat("jpeg");
 Config.setOverwriteOutput(true);
 Config.overrideBundlerConfig(enableTailwind);
+// @remotion/effects (e.g. liquidContours()) render via WebGL2.
+Config.setChromiumOpenGlRenderer("angle");

@@ -1,0 +1,40 @@
+{
+  "slug": "eu-ai-act-sgi",
+  "jobs": [
+    {
+      "out": "hook-eu-ai-act.jpg",
+      "type": "url",
+      "url": "https://artificialintelligenceact.eu/article/50/",
+      "viewport": { "width": 1300, "height": 860 },
+      "hide": [
+        "#header", "header", ".elementor-sticky--active",
+        "[class*=cky]", "[id*=cky]", ".cky-consent-container", ".cky-overlay",
+        "[class*=consent]", "[id*=consent]", "[aria-label*=Consent]", "[aria-label*=consent]",
+        "#cookie-law-info-bar", ".cli-modal"
+      ],
+      "waitFor": "h1",
+      "scrollTo": "h1",
+      "scrollOffset": -90,
+      "note": "Article 50 transparency obligations — the actual legal text the video is about."
+    },
+    {
+      "out": "step1-label-example.jpg",
+      "type": "html",
+      "html": "mockups/ai-disclosure.html",
+      "viewport": { "width": 1280, "height": 720 },
+      "note": "AI-generated content label built the way Art. 50 actually requires it: visible AI-GENERATED badge (50/4,5) + machine-readable C2PA provenance (50/2). Subject image is procedural; drop a licensed AI image at assets/ai-subject.jpg to swap."
+    },
+    {
+      "out": "step2-consent-example.jpg",
+      "type": "html",
+      "html": "mockups/consent-gate.html",
+      "viewport": { "width": 1280, "height": 720 }
+    },
+    {
+      "out": "step3-log-example.jpg",
+      "type": "html",
+      "html": "mockups/audit-log.html",
+      "viewport": { "width": 1280, "height": 720 }
+    }
+  ]
+}

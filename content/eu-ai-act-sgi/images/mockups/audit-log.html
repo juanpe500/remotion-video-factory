@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  :root {
+    --bg: #04070A;
+    --green: #39FF88;
+    --cyan: #4DE8FF;
+    --line: #14241c;
+    --dim: #6f8a7d;
+    --amber: #ffcf5c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1280px; height: 720px;
+    font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    background:
+      radial-gradient(1100px 500px at 85% -20%, rgba(57,255,136,0.08), transparent 60%),
+      var(--bg);
+    color: #dff5ea; overflow: hidden;
+    padding: 40px 46px;
+  }
+  .panel {
+    height: 100%; background: linear-gradient(180deg, #081310, #050b09);
+    border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 30px 90px rgba(0,0,0,0.5); overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 22px 28px; border-bottom: 1px solid var(--line);
+    background: rgba(57,255,136,0.03);
+  }
+  .title { font-size: 22px; font-weight: 700; color: #f2fff8; letter-spacing: 0.5px; }
+  .title .path { color: var(--dim); font-weight: 500; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--green); border: 1px solid #24422f;
+    background: rgba(57,255,136,0.07); padding: 6px 12px; border-radius: 999px;
+  }
+  .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .badge.lock { color: var(--cyan); border-color: #234a52; background: rgba(77,232,255,0.07); }
+  .spacer { flex: 1; }
+  .search {
+    color: var(--dim); font-size: 14px; border: 1px solid var(--line);
+    border-radius: 8px; padding: 9px 14px; background: #060d0b;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  thead th {
+    text-align: left; color: var(--dim); font-weight: 500;
+    font-size: 12.5px; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 16px 20px; border-bottom: 1px solid var(--line);
+    background: #060e0b; position: sticky; top: 0;
+  }
+  tbody td { padding: 15px 20px; border-bottom: 1px solid #0e1a15; white-space: nowrap; }
+  tbody tr:hover { background: rgba(57,255,136,0.03); }
+  .ts { color: #bfe9d5; }
+  .model { color: var(--cyan); }
+  .pill {
+    font-size: 12px; border: 1px solid #234a52; color: var(--cyan);
+    padding: 3px 9px; border-radius: 6px; background: rgba(77,232,255,0.06);
+  }
+  .input { color: #c9e2d8; }
+  .id { color: var(--dim); }
+  .hash { color: #4f6b5d; }
+  .ok { color: var(--green); }
+  .ok::before { content: "\2713 "; }
+
+  footer {
+    margin-top: auto; display: flex; align-items: center; gap: 20px;
+    padding: 16px 28px; border-top: 1px solid var(--line);
+    color: var(--dim); font-size: 13.5px; background: rgba(0,0,0,0.25);
+  }
+  footer .k { color: #9fbcae; }
+  footer .right { margin-left: auto; color: var(--green); }
+</style>
+</head>
+<body>
+  <div class="panel">
+    <header>
+      <div class="title">generation_log <span class="path">/ append-only</span></div>
+      <span class="badge lock">&#128274; Immutable</span>
+      <span class="badge"><span class="dot"></span> Live</span>
+      <div class="spacer"></div>
+      <div class="search">&#128269;&nbsp; filter by model, user, output id&hellip;</div>
+    </header>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Timestamp (UTC)</th>
+          <th>Model</th>
+          <th>Input</th>
+          <th>Output ID</th>
+          <th>SHA-256</th>
+          <th>Disclosed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="ts">2026-08-18&nbsp;14:07:52.318</td><td class="model">gpt-image-1</td><td class="input">"product banner, summer sale"</td><td class="id">out_9f3ac1</td><td class="hash">a17f&hellip;b2e0</td><td class="ok">labeled</td></tr>
+        <tr><td class="ts">2026-08-18&nbsp;14:07:49.902</td><td class="model">claude-opus-4</td><td class="input">"rewrite landing copy"</td><td class="id">out_9f3ab8</td><td class="hash">7c04&hellip;91da</td><td class="ok">labeled</td></tr>
+        <tr><td class="ts">2026-08-18&nbsp;14:07:44.117</td><td class="model">tts-voice-2</td><td class="input">"welcome message narration"</td><td class="id">out_9f3aa1</td><td class="hash">e5b9&hellip;0c47</td><td class="ok">labeled</td></tr>
+        <tr><td class="ts">2026-08-18&nbsp;14:07:38.640</td><td class="model">gpt-image-1</td><td class="input">"headshot, corporate style"</td><td class="id">out_9f3a90</td><td class="hash">18d2&hellip;7fa3</td><td class="ok">labeled</td></tr>
+        <tr><td class="ts">2026-08-18&nbsp;14:07:31.284</td><td class="model">claude-opus-4</td><td class="input">"summarize support thread"</td><td class="id">out_9f3a76</td><td class="hash">bb41&hellip;2d90</td><td class="ok">labeled</td></tr>
+        <tr><td class="ts">2026-08-18&nbsp;14:07:25.019</td><td class="model">video-gen-1</td><td class="input">"15s intro, brand loop"</td><td class="id">out_9f3a5c</td><td class="hash">0af7&hellip;c318</td><td class="ok">labeled</td></tr>
+        <tr><td class="ts">2026-08-18&nbsp;14:07:18.771</td><td class="model">claude-opus-4</td><td class="input">"draft outbound email"</td><td class="id">out_9f3a41</td><td class="hash">92c6&hellip;5ee8</td><td class="ok">labeled</td></tr>
+      </tbody>
+    </table>
+
+    <footer>
+      <span><span class="k">Retention:</span> permanent</span>
+      <span><span class="k">Storage:</span> WORM &middot; write-once</span>
+      <span><span class="k">Entries:</span> 1,284,553</span>
+      <span class="right">&#128274; hash-chained &middot; tamper-evident</span>
+    </footer>
+  </div>
+</body>
+</html>
