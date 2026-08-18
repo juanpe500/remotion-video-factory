@@ -1,7 +1,7 @@
 # Remotion render environment: Node + system Chromium + ffmpeg.
 # Used as a Viclix `docker` runtime so agents in the container can actually
 # render videos (Remotion needs a headless Chrome + ffmpeg).
-FROM node:20-bookworm-slim
+FROM node:22-bookworm-slim
 
 # Chromium + ffmpeg + the shared libs a headless Chrome needs, plus git/python
 # for tooling (whisper.cpp build, etc.).
