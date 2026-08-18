@@ -1,12 +1,17 @@
 // Minimal always-on server so the Viclix docker container stays up and the
-// rendered videos / assets are browsable at the project URL. Rendering itself
-// is done by agents running `npx remotion render ...` inside the container.
+// rendered videos / assets are browsable.
+//
+// SECURITY: serves ONLY the out/ and public/ trees — never the repo root.
+// Viclix restores the project's .env into /app/.env at deploy time, so serving
+// the root would expose secrets. Everything outside the allowlist is 404,
+// dotfiles are always denied, and path traversal can't escape the allowed dirs.
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 
 const PORT = Number(process.env.PORT) || 3000;
 const ROOT = process.cwd();
+const ALLOW = ["out", "public"]; // only these subtrees are public
 const TYPES = {
   ".mp4": "video/mp4",
   ".mp3": "audio/mpeg",
@@ -15,10 +20,22 @@ const TYPES = {
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
   ".json": "application/json",
-  ".html": "text/html",
   ".svg": "image/svg+xml",
   ".txt": "text/plain",
 };
+
+// Resolve a request path to a real file ONLY if it lives under an allowed
+// subtree and contains no dot-file segment. Returns null otherwise.
+function resolveSafe(rel) {
+  const segments = rel.split("/").filter(Boolean);
+  if (segments.length === 0) return null;
+  if (!ALLOW.includes(segments[0])) return null; // must be out/ or public/
+  if (segments.some((s) => s.startsWith("."))) return null; // no dotfiles / no ..
+  const fp = path.normalize(path.join(ROOT, ...segments));
+  const base = path.join(ROOT, segments[0]);
+  if (fp !== base && !fp.startsWith(base + path.sep)) return null; // no escape
+  return fp;
+}
 
 http
   .createServer((req, res) => {
@@ -30,18 +47,15 @@ http
           `<h1>remotion-video-factory</h1><p>container up.</p><ul><li><a href="/out/">/out/</a> — rendered videos</li><li><a href="/public/">/public/</a> — assets</li></ul>`,
         );
       }
-      const fp = path.normalize(path.join(ROOT, rel));
-      if (!fp.startsWith(ROOT)) {
-        res.writeHead(403);
-        return res.end("forbidden");
-      }
-      if (!fs.existsSync(fp)) {
+      const fp = resolveSafe(rel);
+      if (!fp || !fs.existsSync(fp)) {
         res.writeHead(404);
         return res.end("not found");
       }
       if (fs.statSync(fp).isDirectory()) {
         const items = fs
           .readdirSync(fp)
+          .filter((f) => !f.startsWith("."))
           .sort()
           .map((f) => `<li><a href="${path.posix.join(rel, f)}">${f}</a></li>`)
           .join("");
@@ -55,4 +69,4 @@ http
       res.end(String(e));
     }
   })
-  .listen(PORT, "0.0.0.0", () => console.log(`remotion-video-factory serving on :${PORT}`));
+  .listen(PORT, "0.0.0.0", () => console.log(`remotion-video-factory serving on :${PORT} (out/ + public/ only)`));
