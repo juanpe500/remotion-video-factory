@@ -1,0 +1,3 @@
+# Shell scripts must keep LF endings — they run in the Linux container and a
+# CRLF shebang line breaks bash ("/usr/bin/env bash\r: no such file").
+*.sh text eol=lf

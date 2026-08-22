@@ -33,7 +33,13 @@ async function main() {
     throw new Error(`${audioPath} not found. Run generate-audio.ts first.`);
   }
 
-  const whisperDir = path.join(process.cwd(), "whisper.cpp");
+  // WHISPER_DIR lets a deployment point at a whisper build baked OUTSIDE the project
+  // dir (e.g. /opt/whisper in the Docker image) so it survives Viclix's bind-mount of
+  // the checkout over /app. Locally it's unset → falls back to ./whisper.cpp. When the
+  // baked build is already present these two calls are no-ops (they just verify).
+  const whisperDir = process.env.WHISPER_DIR
+    ? path.resolve(process.env.WHISPER_DIR)
+    : path.join(process.cwd(), "whisper.cpp");
   await installWhisperCpp({ to: whisperDir, version: WHISPER_VERSION });
   await downloadWhisperModel({ model: WHISPER_MODEL, folder: whisperDir });
 
