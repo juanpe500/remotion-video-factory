@@ -17,6 +17,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import puppeteer, { type Page } from "puppeteer";
+import { agentLog } from "./lib/agentlog";
 
 type Job = {
   out: string;
@@ -98,6 +99,7 @@ async function main() {
       "--disable-gpu",
     ],
   });
+  agentLog(`[${slug}] images: rendering ${jobs.length} asset(s)…`);
   try {
     for (const job of jobs) {
       const page = await browser.newPage();
@@ -134,7 +136,7 @@ async function main() {
       const outPath = path.join(outDir, job.out);
       await shoot(page, job, outPath);
       const { size } = await fs.stat(outPath);
-      console.log(`  wrote ${outPath}  (${Math.round(size / 1024)} KB)`);
+      agentLog(`[${slug}] images: ${job.out} (${Math.round(size / 1024)} KB)`);
       await page.close();
     }
   } finally {

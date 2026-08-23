@@ -12,6 +12,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import "dotenv/config";
 import { synthesize, type TtsProvider } from "./lib/tts";
+import { agentLog } from "./lib/agentlog";
 
 function parseArgs(argv: string[]) {
   const [slug, ...rest] = argv;
@@ -39,10 +40,11 @@ async function main() {
     throw new Error(`${scriptPath} is empty.`);
   }
 
+  agentLog(`[${slug}] audio: synthesizing narration (${text.length} chars, provider=${provider ?? "default"})`);
   const outFile = path.join("public", slug, "audio.mp3");
   const result = await synthesize({ text, outFile, provider, voice, speed });
 
-  console.log(`Wrote ${result.outFile} (provider=${result.provider}, voice=${result.voice})`);
+  agentLog(`[${slug}] audio: done → ${result.outFile} (provider=${result.provider}, voice=${result.voice})`);
 }
 
 main().catch((err) => {

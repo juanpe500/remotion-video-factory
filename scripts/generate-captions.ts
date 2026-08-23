@@ -17,6 +17,7 @@ import {
   transcribe,
   toCaptions,
 } from "@remotion/install-whisper-cpp";
+import { agentLog } from "./lib/agentlog";
 
 const WHISPER_VERSION = "1.5.5";
 // Env-overridable: constrained containers cap RAM, and medium.en (1.5GB) can OOM on
@@ -52,6 +53,7 @@ async function main() {
   const wavPath = path.resolve("public", slug, "audio.wav");
   execSync(`ffmpeg -y -i "${audioPath}" -ar 16000 -ac 1 "${wavPath}"`, { stdio: "inherit" });
 
+  agentLog(`[${slug}] captions: transcribing with whisper (${WHISPER_MODEL})…`);
   const whisperCppOutput = await transcribe({
     model: WHISPER_MODEL,
     whisperPath: whisperDir,
@@ -70,7 +72,7 @@ async function main() {
   fs.writeFileSync(outFile, JSON.stringify(captions, null, 2));
   fs.unlinkSync(wavPath);
 
-  console.log(`Wrote ${outFile} (${captions.length} tokens)`);
+  agentLog(`[${slug}] captions: done → ${captions.length} tokens`);
 }
 
 main().catch((err) => {

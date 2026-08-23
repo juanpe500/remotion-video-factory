@@ -15,6 +15,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import puppeteer from "puppeteer";
+import { agentLog } from "./lib/agentlog";
 
 // Must match the Terminal style's BG constant (src/videos/.../styles/Terminal.tsx) —
 // MDGraph uses `bg` both as the SVG's own background AND as the "knockout"
@@ -47,7 +48,12 @@ async function main() {
   const source = await fs.readFile(sourcePath, "utf-8");
   const mdgraphJs = await fs.readFile(path.join("scripts", "vendor", "mdgraph.js"), "utf-8");
 
-  const browser = await puppeteer.launch();
+  agentLog(`[${slug}] diagram: rendering ${name}.mdgraph → svg…`);
+  // Container-safe flags: 64MB /dev/shm and no GPU otherwise crash the render
+  // (see generate-images.ts for the same reasoning).
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu"],
+  });
   try {
     const page = await browser.newPage();
     await page.setContent(
@@ -88,7 +94,7 @@ async function main() {
     const outFile = path.join("public", slug, "diagrams", `${name}.svg`);
     await fs.mkdir(path.dirname(outFile), { recursive: true });
     await fs.writeFile(outFile, transparentSvg);
-    console.log(`Wrote ${outFile}`);
+    agentLog(`[${slug}] diagram: done → ${outFile}`);
   } finally {
     await browser.close();
   }
