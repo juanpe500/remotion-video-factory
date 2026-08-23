@@ -5,12 +5,13 @@
  * Usage:
  *   npx tsx scripts/render.ts <CompositionId> <out/name.mp4> [--concurrency N] [extra remotion flags...]
  *
- * Why a wrapper: the app container is 1 vCPU / 2GB. Remotion's default
- * concurrency equals the core count (8 here), which spawns too many Chromium
- * tabs and OOMs. This forces --concurrency=2 unless the caller overrides it,
- * and emits a plain-text record of each render into Viclix's App Logs so a run
- * can be followed without opening the agent chat. Remotion's own progress still
- * streams through (stdio is inherited).
+ * Why a wrapper: on the 1 vCPU / 2GB container Remotion (a) defaults concurrency
+ * to the core count and OOMs, and (b) tries to download its own chrome-headless-
+ * shell into a root-owned node_modules (EACCES). This forces --concurrency=1 and
+ * --browser-executable=<system chromium> unless the caller overrides them, and
+ * emits a plain-text record of each render into Viclix's App Logs so a run can be
+ * followed without opening the agent chat. Remotion's own progress still streams
+ * through (stdio is inherited).
  */
 import { spawn } from "node:child_process";
 import { agentLog } from "./lib/agentlog";
@@ -24,11 +25,22 @@ function main() {
   }
 
   // Honor a caller-supplied --concurrency, otherwise inject the safe default.
+  // The container is 1 vCPU / 2GB — concurrency 1 keeps a single 1080×1920
+  // Chromium tab in RAM (extra tabs buy nothing on one core and risk OOM).
   const hasConcurrency = rest.some((a) => a === "--concurrency" || a.startsWith("--concurrency="));
-  const concurrencyArgs = hasConcurrency ? [] : ["--concurrency=2"];
+  const concurrencyArgs = hasConcurrency ? [] : ["--concurrency=1"];
 
-  const args = ["remotion", "render", compositionId, outPath, ...concurrencyArgs, ...rest];
-  agentLog(`render: ${compositionId} → ${outPath} (${hasConcurrency ? "custom concurrency" : "concurrency=2"})`);
+  // Force the SYSTEM Chromium. Without this, Remotion runs ensureBrowser() and
+  // tries to download its own chrome-headless-shell into node_modules/.remotion —
+  // which is root-owned here (synced from the image) so the download EACCES-fails.
+  // REMOTION_CHROME_EXECUTABLE alone is NOT honored by the renderer; the
+  // --browser-executable flag is. Skip only if the caller already passed one.
+  const hasBrowser = rest.some((a) => a === "--browser-executable" || a.startsWith("--browser-executable="));
+  const chromium = process.env.REMOTION_CHROME_EXECUTABLE || process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/chromium";
+  const browserArgs = hasBrowser ? [] : [`--browser-executable=${chromium}`];
+
+  const args = ["remotion", "render", compositionId, outPath, ...concurrencyArgs, ...browserArgs, ...rest];
+  agentLog(`render: ${compositionId} → ${outPath} (${hasConcurrency ? "custom concurrency" : "concurrency=1"}${hasBrowser ? "" : ", system chromium"})`);
 
   const started = Date.now();
   const child = spawn("npx", args, { stdio: "inherit", shell: process.platform === "win32" });
