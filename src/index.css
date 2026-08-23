@@ -1,1 +1,5 @@
-@import "tailwindcss";
+/* Tailwind removed: no composition uses Tailwind classes, and the Tailwind v4
+   bundler pass (enableTailwind in remotion.config.ts) ballooned the Rspack
+   bundle to ~8GB and stalled the render. Re-add both this import and the
+   override only if a composition actually starts using Tailwind classes. */
+/* @import "tailwindcss"; */

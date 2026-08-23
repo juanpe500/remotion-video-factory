@@ -4,14 +4,12 @@ import {
   Img,
   Interactive,
   Sequence,
-  Solid,
   interpolate,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 import { Audio } from "@remotion/media";
-import { liquidContours } from "@remotion/effects/liquid-contours";
 import { Circle, CrossedOff } from "@remotion/rough-notation";
 import type { TikTokPage } from "@remotion/captions";
 import { loadFont } from "@remotion/google-fonts/JetBrainsMono";
@@ -57,32 +55,21 @@ const Scanlines: React.FC = () => (
   />
 );
 
-// Real @remotion/effects background (remotion.dev/elements/backgrounds) —
-// flowing liquid contour bands. Scaled way up and de-contrasted from the
-// loud two-tone demo look so it reads as a slow-moving texture behind the
-// terminal text instead of competing with it for attention.
-const AnimatedBackground: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { width, height } = useVideoConfig();
-
-  return (
-    <div style={{ position: "absolute", inset: 0, opacity: 0.4 }}>
-      <Solid
-        width={width}
-        height={height}
-        effects={[
-          liquidContours({
-            firstColor: "#0A1F16",
-            secondColor: BG,
-            scale: 900,
-            spacing: 220,
-            phase: interpolate(frame, [0, 1800], [3.23, 6.23]),
-          }),
-        ]}
-      />
-    </div>
-  );
-};
+// Subtle background texture — a soft diagonal wash in the terminal palette so
+// the text isn't sitting on flat black. This was a WebGL2 liquidContours shader
+// (@remotion/effects); it's removed because the cloud render container has no GPU
+// and software WebGL2 (swangle) is slow/unstable. A CSS gradient gives the same
+// "not flat" feel with zero GPU cost. Keep this composition WebGL2-free.
+const AnimatedBackground: React.FC = () => (
+  <AbsoluteFill
+    style={{
+      background:
+        "radial-gradient(120% 75% at 50% 0%, #0A1F16 0%, rgba(10,31,22,0.35) 42%, transparent 72%)",
+      opacity: 0.6,
+      pointerEvents: "none",
+    }}
+  />
+);
 
 // Slow, continuous zoom-in over the whole video — gives otherwise-static
 // text a bit of camera life. Pinned UI (progress bar, watermark) lives
@@ -124,7 +111,9 @@ const Header: React.FC = () => {
 // "Three," (transcribed as words) or whisper writes them as "1." / "2." / "3."
 // — different TTS voices flip between the two, and the whole steps section keys
 // off this.
-const STEP_REGEX = [/\b(one|1)[.,:]/i, /\b(two|2)[.,:]/i, /\b(three|3)[.,:]/i];
+// Whisper may split the comma into its own token ("one ,"), so allow optional
+// whitespace between the word and the punctuation.
+const STEP_REGEX = [/\b(one|1)\s*[.,:]/i, /\b(two|2)\s*[.,:]/i, /\b(three|3)\s*[.,:]/i];
 
 // The steps section builds a "compliance function" in a code editor panel that
 // types itself out line-by-line, one call per real step. We invent the function
@@ -469,7 +458,10 @@ const OutroCard: React.FC = () => {
           borderRadius: "50%",
           border: `3px solid ${GREEN}`,
           background: "#fff",
-          boxShadow: `0 0 50px ${GREEN}44`,
+          // Small blur radius on purpose: a big CSS blur is very expensive under
+          // software rendering (swangle) — a 50px glow made these outro frames
+          // ~15x slower than the rest of the video. 14px still reads as a glow.
+          boxShadow: `0 0 14px ${GREEN}66`,
           marginBottom: 26,
         }}
       />

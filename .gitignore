@@ -9,6 +9,10 @@ out
 # Whisper.cpp binary + model, downloaded on demand by scripts/generate-captions.ts
 whisper.cpp
 
+# Intermediate render frames — scripts/render.ts points TMPDIR here to keep them
+# off the container's tiny 64MB /tmp tmpfs.
+.rendertmp
+
 # Generated narration audio is regenerable (and provider/voice-dependent) —
 # don't commit it. Captions JSON is small and worth keeping for reproducibility.
 public/**/audio.mp3
