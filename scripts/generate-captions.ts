@@ -19,7 +19,11 @@ import {
 } from "@remotion/install-whisper-cpp";
 
 const WHISPER_VERSION = "1.5.5";
-const WHISPER_MODEL = "medium.en";
+// Env-overridable: constrained containers cap RAM, and medium.en (1.5GB) can OOM on
+// load. Deployments set WHISPER_MODEL=small.en (487MB, ample quality for caption
+// timing). Locally it defaults to medium.en. Whichever is set must be the model baked
+// into WHISPER_DIR — /opt/whisper is read-only at runtime, so a download can't happen.
+const WHISPER_MODEL = process.env.WHISPER_MODEL ?? "medium.en";
 
 async function main() {
   const slug = process.argv[2];
@@ -54,6 +58,10 @@ async function main() {
     whisperCppVersion: WHISPER_VERSION,
     inputPath: wavPath,
     tokenLevelTimestamps: true,
+    // Cap whisper's thread pool. It otherwise spawns one thread per core (nproc=8
+    // in the container); combined with node + esbuild that pressures the PID limit.
+    // Two threads is plenty for a ~60s clip and keeps the whole chain well under it.
+    additionalArgs: ["-t", "2"],
   });
 
   const { captions } = toCaptions({ whisperCppOutput });

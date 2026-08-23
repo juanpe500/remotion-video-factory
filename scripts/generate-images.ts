@@ -85,7 +85,18 @@ async function main() {
   const jobs: Job[] = manifest.jobs.filter((j: Job) => only.length === 0 || only.includes(j.out));
 
   const browser = await puppeteer.launch({
-    args: ["--no-sandbox", "--hide-scrollbars", "--force-color-profile=srgb"],
+    args: [
+      "--no-sandbox",
+      "--hide-scrollbars",
+      "--force-color-profile=srgb",
+      // Containers mount a tiny 64MB /dev/shm; Chromium uses it for its render
+      // surfaces and the SECOND screenshot onward fails with "Unable to capture
+      // screenshot" once it fills. Route that scratch space to /tmp instead.
+      "--disable-dev-shm-usage",
+      // No GPU in the container — force the software path explicitly so Chromium
+      // doesn't spin up (and leak) GPU-process helpers on every shot.
+      "--disable-gpu",
+    ],
   });
   try {
     for (const job of jobs) {
