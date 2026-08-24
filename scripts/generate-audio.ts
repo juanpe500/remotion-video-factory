@@ -10,9 +10,15 @@
  */
 import fs from "node:fs/promises";
 import path from "node:path";
+import { execSync } from "node:child_process";
 import "dotenv/config";
 import { synthesize, type TtsProvider } from "./lib/tts";
 import { agentLog } from "./lib/agentlog";
+
+// A narration longer than this makes the render take far too long (software
+// rendering on the no-GPU container is ~1 frame/second, so a 2.5-min video is
+// ~90 min of render and blows the run budget). Overridable via MAX_AUDIO_SECONDS.
+const MAX_SECONDS = Number(process.env.MAX_AUDIO_SECONDS) || 90;
 
 function parseArgs(argv: string[]) {
   const [slug, ...rest] = argv;
@@ -44,7 +50,25 @@ async function main() {
   const outFile = path.join("public", slug, "audio.mp3");
   const result = await synthesize({ text, outFile, provider, voice, speed });
 
-  agentLog(`[${slug}] audio: done → ${result.outFile} (provider=${result.provider}, voice=${result.voice})`);
+  // Measure the result and enforce the length budget.
+  const durationStr = execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${result.outFile}"`)
+    .toString()
+    .trim();
+  const seconds = Math.round(parseFloat(durationStr));
+  agentLog(`[${slug}] audio: done → ${result.outFile} (${seconds}s, provider=${result.provider}, voice=${result.voice})`);
+
+  // FAIL (but recoverably) if the narration is too long. This is a normal tool
+  // error the agent recovers from — it does NOT end the run. The agent should
+  // tighten content/<slug>/script.txt and run generate-audio again.
+  if (seconds > MAX_SECONDS) {
+    console.error(
+      `\n❌ NARRATION TOO LONG: ${seconds}s (max ${MAX_SECONDS}s).\n` +
+        `FIX IT: edit content/${slug}/script.txt down to ~130 words (~60s) — paraphrase harder in the ` +
+        `character's voice, keep the hook + 3 numbered steps + closer, drop the rest — then run ` +
+        `generate-audio.ts again. Do NOT proceed to captions/images/render until the audio is <= ${MAX_SECONDS}s.\n`,
+    );
+    process.exit(1);
+  }
 }
 
 main().catch((err) => {
