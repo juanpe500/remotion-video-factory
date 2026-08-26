@@ -17,3 +17,8 @@ whisper.cpp
 # don't commit it. Captions JSON is small and worth keeping for reproducibility.
 public/**/audio.mp3
 public/**/audio.wav
+
+# BidTier promo — kept local, not published to the repo yet (JP, 2026-08-26).
+content/bidtier/
+public/bidtier/
+src/videos/bidtier/
