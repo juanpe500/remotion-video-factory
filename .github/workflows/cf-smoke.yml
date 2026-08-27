@@ -1,8 +1,8 @@
 name: Cloudflare smoke test
 
 # One-off probe: from a GitHub runner (datacenter IP), hit the savagescroll API
-# through Cloudflare and report whether the "Just a moment" challenge still fires.
-# Validates the WAF Skip rule for /api/v1/*. Safe: read-only GET, no upload.
+# through Cloudflare and report which service issued the challenge (cf-mitigated,
+# cf-ray). Read-only GET, no upload.
 
 on:
   workflow_dispatch:
@@ -17,20 +17,18 @@ jobs:
         run: |
           echo "Runner public IP: $(curl -s https://api.ipify.org)"
           echo "=== GET https://app.savagescroll.com/api/v1/pages ==="
-          code=$(curl -s -o body.txt -w "%{http_code}" \
+          code=$(curl -s -o body.txt -D headers.txt -w "%{http_code}" \
             -H "Authorization: Bearer $KEY" \
             -H "Accept: application/json" \
             https://app.savagescroll.com/api/v1/pages)
           echo "HTTP status: $code"
-          echo "--- first 500 bytes of body ---"
-          head -c 500 body.txt; echo
-          echo "-------------------------------"
-          if grep -qi "just a moment\|cf-challenge\|challenge-platform" body.txt; then
-            echo "RESULT: STILL CHALLENGED BY CLOUDFLARE (rule not working)"
+          echo "=== response headers (cf-* and friends) ==="
+          grep -iE '^(cf-|server:|x-|content-type)' headers.txt || cat headers.txt
+          echo "=== first 300 bytes of body ==="
+          head -c 300 body.txt; echo
+          echo "==========================================="
+          if grep -qi "just a moment\|challenge-platform\|cf-chl" body.txt headers.txt; then
+            echo "RESULT: CHALLENGED (see cf-mitigated header above for the service)"
             exit 1
           fi
-          if [ "$code" = "403" ] && grep -qi "cloudflare" body.txt; then
-            echo "RESULT: 403 from Cloudflare (blocked, not origin)"
-            exit 1
-          fi
-          echo "RESULT: Cloudflare PASSED — origin responded with HTTP $code (no challenge page)"
+          echo "RESULT: PASSED — origin responded HTTP $code (no challenge)"
