@@ -3,7 +3,7 @@
  *
  * Builds a throwaway `render/<slug>` branch off origin/main containing ONLY this
  * video's scaffold (content/<slug>/**, src/videos/<slug>/**), pushes it, and
- * triggers the `render-video.yml` workflow — which runs the pipeline (audio ->
+ * triggers the `matrix-render.yml` workflow — which runs the pipeline (audio ->
  * captions -> images -> render) + upload-savagescroll on a dedicated GitHub
  * runner (~10x faster than this saturated, GPU-less host, and free on a public
  * repo). Root.tsx auto-discovers videos, so the branch needs no registration edit.
@@ -72,7 +72,7 @@ async function main() {
   // 4. Trigger the render workflow on that branch. composition id === slug.
   const inputs = { slug, composition_id: slug, page_id: pageId, subpage_id: subpageId, mode };
   const res = await fetch(
-    `https://api.github.com/repos/${REPO}/actions/workflows/render-video.yml/dispatches`,
+    `https://api.github.com/repos/${REPO}/actions/workflows/matrix-render.yml/dispatches`,
     {
       method: "POST",
       headers: {
@@ -86,10 +86,10 @@ async function main() {
   if (res.status !== 204) {
     throw new Error(`workflow_dispatch failed: HTTP ${res.status} — ${(await res.text()).slice(0, 300)}`);
   }
-  agentLog(`[dispatch] render-video.yml triggered for ${slug} (page=${pageId || "none"} subpage=${subpageId || "none"} mode=${mode})`);
+  agentLog(`[dispatch] matrix-render.yml triggered for ${slug} (page=${pageId || "none"} subpage=${subpageId || "none"} mode=${mode})`);
   console.log(
     `\n✅ Dispatched GitHub Actions render for "${slug}".\n` +
-      `   branch: ${branch} · workflow: render-video.yml\n` +
+      `   branch: ${branch} · workflow: matrix-render.yml (parallel)\n` +
       `   The render + upload run on GitHub now (this container did NOT render).\n` +
       `   Watch: https://github.com/${REPO}/actions\n`,
   );
