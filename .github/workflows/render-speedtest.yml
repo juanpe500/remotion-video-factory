@@ -28,6 +28,9 @@ jobs:
       - name: nproc / cpu info
         run: 'echo "cores: $(nproc)"; free -h | head -2'
 
+      - name: Install ffmpeg (needed by the pipeline scripts)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && ffprobe -version | head -1
+
       - name: Install deps
         run: npm ci
 
