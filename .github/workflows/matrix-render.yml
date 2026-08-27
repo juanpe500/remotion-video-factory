@@ -1,0 +1,248 @@
+name: Matrix render & upload
+
+# Parallel render: split ONE video across N GitHub runners by frame range, then
+# stitch + upload. The slow part (rendering ~2k frames) fans out so wall-clock is
+# the slowest single chunk (~minutes) instead of the whole video (~40 min single
+# runner). Free + unlimited on a public repo.
+#
+#   prep    -> generate assets once (audio/captions/images/diagram) + frame count
+#   render  -> matrix over frame-range chunks, each renders its slice (muted)
+#   merge   -> concat the chunks in order, mux the full audio, upload to savagescroll
+#
+# The per-<slug> scaffold (content/<slug>/**, src/videos/<slug>/**) must exist on
+# the checked-out ref. Composition id === <slug> (Root.tsx auto-discovery).
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "content/<slug> to render"
+        required: true
+      composition_id:
+        description: "Remotion composition id (= slug)"
+        required: true
+      page_id:
+        description: "savagescroll page id (empty = render only, no upload)"
+        required: false
+        default: ""
+      subpage_id:
+        description: "savagescroll subpage id (empty + page = vault-only)"
+        required: false
+        default: ""
+      mode:
+        description: "schedule | vault"
+        required: false
+        default: "schedule"
+      frames_per_chunk:
+        description: "target frames per chunk (fewer = more parallelism)"
+        required: false
+        default: "180"
+      max_chunks:
+        description: "cap on parallel chunks (GitHub free ~20 concurrent)"
+        required: false
+        default: "16"
+
+env:
+  SLUG: ${{ inputs.slug }}
+  COMP: ${{ inputs.composition_id }}
+
+jobs:
+  # ------------------------------------------------------------------ prep ---
+  prep:
+    name: Prep assets + plan
+    runs-on: ubuntu-latest
+    outputs:
+      chunks: ${{ steps.plan.outputs.chunks }}
+      frames: ${{ steps.plan.outputs.frames }}
+    env:
+      TTS_PROVIDER: fish
+      FISH_BASE_URL: https://api.fish.audio
+      FISH_AUDIO_API_KEY: ${{ secrets.FISH_AUDIO_API_KEY }}
+      FISH_AUDIO_DEFAULT_VOICE_ID: ${{ secrets.FISH_AUDIO_DEFAULT_VOICE_ID }}
+      WHISPER_MODEL: small.en
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Install deps
+        run: |
+          npm ci
+          # bundler + renderer ship transitively with @remotion/cli; pin them
+          # explicitly so scripts/frame-count.ts always resolves them.
+          npm i --no-save @remotion/bundler@4.0.512 @remotion/renderer@4.0.512
+
+      - name: Generate audio (Fish TTS)
+        run: npx tsx scripts/generate-audio.ts "$SLUG"
+      - name: Generate captions (whisper small.en)
+        run: npx tsx scripts/generate-captions.ts "$SLUG"
+      - name: Generate images
+        run: npx tsx scripts/generate-images.ts "$SLUG"
+      - name: Generate diagram (only if a .mdgraph exists)
+        run: |
+          shopt -s nullglob
+          found=0
+          for f in content/"$SLUG"/diagrams/*.mdgraph; do
+            found=1
+            npx tsx scripts/generate-diagram.ts "$SLUG" "$(basename "$f" .mdgraph)" || echo "diagram step failed (continuing)"
+          done
+          [ "$found" = 0 ] && echo "no diagram source for $SLUG; skipping" || true
+
+      - name: Compute frame count + chunk plan
+        id: plan
+        run: |
+          set -e
+          npx tsx scripts/frame-count.ts "$SLUG" "$COMP" || true
+          TOTAL=$(cat frames.txt)
+          if ! [ "$TOTAL" -gt 0 ] 2>/dev/null; then
+            echo "frame-count failed (got '$TOTAL')"; exit 1
+          fi
+          FPC=${{ inputs.frames_per_chunk }}
+          MAX=${{ inputs.max_chunks }}
+          N=$(( (TOTAL + FPC - 1) / FPC ))
+          if [ "$N" -gt "$MAX" ]; then N=$MAX; FPC=$(( (TOTAL + N - 1) / N )); fi
+          json="["
+          i=0
+          s=0
+          while [ "$s" -lt "$TOTAL" ]; do
+            e=$(( s + FPC - 1 ))
+            [ "$e" -gt $(( TOTAL - 1 )) ] && e=$(( TOTAL - 1 ))
+            [ "$json" != "[" ] && json="$json,"
+            json="$json{\"i\":$i,\"s\":$s,\"e\":$e}"
+            i=$(( i + 1 ))
+            s=$(( s + FPC ))
+          done
+          json="$json]"
+          echo "frames=$TOTAL"   >> "$GITHUB_OUTPUT"
+          echo "chunks=$json"    >> "$GITHUB_OUTPUT"
+          echo "=== plan: $TOTAL frames -> $i chunks of ~$FPC ==="
+          echo "$json"
+
+      - name: Package assets (audio/captions/images/diagram)
+        run: tar czf assets.tgz -C public "$SLUG"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: assets
+          path: assets.tgz
+          retention-days: 1
+
+  # ---------------------------------------------------------------- render ---
+  render:
+    name: "Render frames ${{ matrix.chunk.s }}-${{ matrix.chunk.e }}"
+    needs: prep
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        chunk: ${{ fromJSON(needs.prep.outputs.chunks) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Install deps
+        run: npm ci
+      - name: Restore assets
+        uses: actions/download-artifact@v4
+        with:
+          name: assets
+          path: .
+      - run: mkdir -p public && tar xzf assets.tgz -C public && ls -R "public/$SLUG" | head
+
+      - name: Render chunk (muted; audio is muxed at merge)
+        run: |
+          echo "=== chunk ${{ matrix.chunk.i }}: frames ${{ matrix.chunk.s }}-${{ matrix.chunk.e }} ==="
+          S=$(date +%s)
+          npx remotion render "$COMP" "out/chunk-${{ matrix.chunk.i }}.mp4" \
+            --frames=${{ matrix.chunk.s }}-${{ matrix.chunk.e }} --muted
+          echo "=== chunk ${{ matrix.chunk.i }} took $(( $(date +%s) - S ))s ==="
+          ls -la "out/chunk-${{ matrix.chunk.i }}.mp4"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chunk-${{ matrix.chunk.i }}
+          path: out/chunk-${{ matrix.chunk.i }}.mp4
+          retention-days: 1
+
+  # ----------------------------------------------------------------- merge ---
+  merge:
+    name: Stitch + upload
+    needs: [prep, render]
+    runs-on: ubuntu-latest
+    env:
+      SAVAGESCROLL_API_KEY: ${{ secrets.SAVAGESCROLL_API_KEY }}
+      PAGE_ID: ${{ inputs.page_id }}
+      SUBPAGE_ID: ${{ inputs.subpage_id }}
+      MODE: ${{ inputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Install deps
+        run: npm ci
+
+      - name: Restore assets (for audio.mp3)
+        uses: actions/download-artifact@v4
+        with:
+          name: assets
+          path: .
+      - run: mkdir -p public && tar xzf assets.tgz -C public
+
+      - name: Download all chunks
+        uses: actions/download-artifact@v4
+        with:
+          pattern: chunk-*
+          path: chunks
+          merge-multiple: true
+
+      - name: Concat chunks + mux full audio
+        run: |
+          set -e
+          mkdir -p out
+          # numeric order: chunk-2 before chunk-10
+          ls chunks/*.mp4 | sort -V > order.txt
+          echo "=== chunk order ==="; cat order.txt
+          : > list.txt
+          while read -r f; do echo "file '$PWD/$f'" >> list.txt; done < order.txt
+          # Re-encode the concat (deterministic, keyframe-clean) and mux the full
+          # narration. NO -shortest: the video is longer than the audio by the
+          # outro tail, and that silence-over-outro is intentional.
+          ffmpeg -y -f concat -safe 0 -i list.txt -i "public/$SLUG/audio.mp3" \
+            -map 0:v:0 -map 1:a:0 \
+            -c:v libx264 -pix_fmt yuv420p -crf 18 -preset veryfast \
+            -c:a aac -b:a 192k \
+            "out/$SLUG.mp4"
+          echo "=== final ==="; ls -la "out/$SLUG.mp4"
+          ffprobe -v error -show_entries format=duration -of default=nk=1:nw=1 "out/$SLUG.mp4"
+
+      - name: Upload to savagescroll
+        if: ${{ inputs.page_id != '' }}
+        run: |
+          set -e
+          ARGS=("out/$SLUG.mp4" --page "$PAGE_ID")
+          if [ -n "$SUBPAGE_ID" ] && [ "$MODE" = "schedule" ]; then
+            ARGS+=(--subpage "$SUBPAGE_ID")
+          else
+            ARGS+=(--vault-only)
+          fi
+          if [ -f "content/$SLUG/caption.txt" ]; then
+            ARGS+=(--caption-file "content/$SLUG/caption.txt")
+          fi
+          echo "upload args: ${ARGS[*]}"
+          npx tsx scripts/upload-savagescroll.ts "${ARGS[@]}"
+
+      - name: Upload final mp4 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.slug }}-mp4
+          path: out/${{ inputs.slug }}.mp4
+          retention-days: 3
