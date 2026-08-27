@@ -41,6 +41,10 @@ on:
         description: "cap on parallel chunks (GitHub free ~20 concurrent)"
         required: false
         default: "16"
+      max_audio_seconds:
+        description: "override the 90s narration budget (empty = 90)"
+        required: false
+        default: ""
 
 env:
   SLUG: ${{ inputs.slug }}
@@ -60,6 +64,7 @@ jobs:
       FISH_AUDIO_API_KEY: ${{ secrets.FISH_AUDIO_API_KEY }}
       FISH_AUDIO_DEFAULT_VOICE_ID: ${{ secrets.FISH_AUDIO_DEFAULT_VOICE_ID }}
       WHISPER_MODEL: small.en
+      MAX_AUDIO_SECONDS: ${{ inputs.max_audio_seconds }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
