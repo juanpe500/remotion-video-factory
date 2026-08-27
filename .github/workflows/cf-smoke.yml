@@ -1,0 +1,36 @@
+name: Cloudflare smoke test
+
+# One-off probe: from a GitHub runner (datacenter IP), hit the savagescroll API
+# through Cloudflare and report whether the "Just a moment" challenge still fires.
+# Validates the WAF Skip rule for /api/v1/*. Safe: read-only GET, no upload.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    env:
+      KEY: ${{ secrets.SAVAGESCROLL_API_KEY }}
+    steps:
+      - name: Probe /api/v1/pages through Cloudflare
+        run: |
+          echo "Runner public IP: $(curl -s https://api.ipify.org)"
+          echo "=== GET https://app.savagescroll.com/api/v1/pages ==="
+          code=$(curl -s -o body.txt -w "%{http_code}" \
+            -H "Authorization: Bearer $KEY" \
+            -H "Accept: application/json" \
+            https://app.savagescroll.com/api/v1/pages)
+          echo "HTTP status: $code"
+          echo "--- first 500 bytes of body ---"
+          head -c 500 body.txt; echo
+          echo "-------------------------------"
+          if grep -qi "just a moment\|cf-challenge\|challenge-platform" body.txt; then
+            echo "RESULT: STILL CHALLENGED BY CLOUDFLARE (rule not working)"
+            exit 1
+          fi
+          if [ "$code" = "403" ] && grep -qi "cloudflare" body.txt; then
+            echo "RESULT: 403 from Cloudflare (blocked, not origin)"
+            exit 1
+          fi
+          echo "RESULT: Cloudflare PASSED — origin responded with HTTP $code (no challenge page)"
