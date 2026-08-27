@@ -1,60 +1,46 @@
 import "./index.css";
 import { Composition } from "remotion";
 import { makeCalculateAudioMetadata } from "./lib/calculateAudioMetadata";
-import { AUDIO_FILE } from "./videos/eu-ai-act-sgi/config";
-import { EuAiActBoldImpact } from "./videos/eu-ai-act-sgi/styles/BoldImpact";
-import { EuAiActTerminal, OUTRO_FRAMES } from "./videos/eu-ai-act-sgi/styles/Terminal";
-import { EuAiActRegulatory } from "./videos/eu-ai-act-sgi/styles/Regulatory";
-import { EuAiActBreakingNews } from "./videos/eu-ai-act-sgi/styles/BreakingNews";
 
-// Vertical, social-first. Duration is derived from public/eu-ai-act-sgi/audio.mp3
-// via calculateMetadata, so it stays in sync whenever the audio is regenerated
-// (new TTS provider, re-recorded voiceover, trimmed script, etc.).
-const calculateMetadata = makeCalculateAudioMetadata(AUDIO_FILE);
+// Auto-discovered video registry. CONVENTION: every video lives at
+// `src/videos/<slug>/styles/Terminal.tsx` and exports `Terminal` (the component)
+// and `OUTRO_FRAMES`. The composition id IS the <slug>, and its audio is
+// public/<slug>/audio.mp3. No manual registration per video — a checkout (or a
+// throwaway render branch) registers exactly the videos it carries, which keeps
+// the repo stateless for the GitHub-Actions render flow.
+const ctx = (
+  import.meta as unknown as {
+    webpackContext: (
+      dir: string,
+      opts: { recursive: boolean; regExp: RegExp },
+    ) => {
+      keys(): string[];
+      (id: string): { Terminal: React.FC; OUTRO_FRAMES?: number };
+    };
+  }
+).webpackContext("./videos", { recursive: true, regExp: /\/styles\/Terminal\.tsx$/ });
 
-// Terminal gets an outro CTA, so it holds the frame a few seconds longer
-// than the other (still exactly-narration-length) styles.
-const calculateTerminalMetadata = makeCalculateAudioMetadata(AUDIO_FILE, { tailFrames: OUTRO_FRAMES });
+const VIDEOS = ctx.keys().map((key) => {
+  const slug = key.replace(/^\.\//, "").replace(/\/styles\/Terminal\.tsx$/, "");
+  const mod = ctx(key);
+  return { slug, component: mod.Terminal, outroFrames: mod.OUTRO_FRAMES ?? 90 };
+});
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
-      <Composition
-        id="EuAiAct-BoldImpact"
-        component={EuAiActBoldImpact}
-        width={1080}
-        height={1920}
-        fps={30}
-        durationInFrames={1800}
-        calculateMetadata={calculateMetadata}
-      />
-      <Composition
-        id="EuAiAct-Terminal"
-        component={EuAiActTerminal}
-        width={1080}
-        height={1920}
-        fps={30}
-        durationInFrames={1800 + OUTRO_FRAMES}
-        calculateMetadata={calculateTerminalMetadata}
-      />
-      <Composition
-        id="EuAiAct-Regulatory"
-        component={EuAiActRegulatory}
-        width={1080}
-        height={1920}
-        fps={30}
-        durationInFrames={1800}
-        calculateMetadata={calculateMetadata}
-      />
-      <Composition
-        id="EuAiAct-BreakingNews"
-        component={EuAiActBreakingNews}
-        width={1080}
-        height={1920}
-        fps={30}
-        durationInFrames={1800}
-        calculateMetadata={calculateMetadata}
-      />
+      {VIDEOS.map(({ slug, component, outroFrames }) => (
+        <Composition
+          key={slug}
+          id={slug}
+          component={component}
+          width={1080}
+          height={1920}
+          fps={30}
+          durationInFrames={1800 + outroFrames}
+          calculateMetadata={makeCalculateAudioMetadata(`${slug}/audio.mp3`, { tailFrames: outroFrames })}
+        />
+      ))}
     </>
   );
 };
