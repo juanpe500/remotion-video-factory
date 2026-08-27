@@ -1,0 +1,7 @@
+[confident] Ten users, everything works. [calm] One hundred, slowing down. [groaning] One thousand, crash to the ground. [emphasis] That is the scaling cliff, and vibe-coded apps hit it hard.
+[confident] AI code optimizes for works, not for scale. [sarcastic] A query, fifty milliseconds with fifty rows. [whispering] Thirty seconds with one hundred thousand. [mocking] Not built to scale.
+[confident] So here is production-ready scaling, one time.
+One: proper indexing. [flat] Targeted queries that stay fast as data grows.
+Two: a caching strategy. [sarcastic] Do not compute the same thing a thousand times. Compute once, cache it, serve it fast.
+Three: async processing. [emphasis] Do not make users wait for reports. Queue it, process in the background.
+[emphasis] And load test before you launch. [confident] At Faction, we stress test for scale. [whispering] Launch day surprises are the most expensive kind. [sarcastic] How many users has your app handled? Did it hit a cliff? Tell me below.

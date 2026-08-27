@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --green:#38B886; --cyan:#4ADE4F; --red:#FF5C5C; --dim:#5f7d6f; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#04070A; font-family:'JetBrains Mono',ui-monospace,monospace; padding:34px; }
+  .panel { border:1px solid #1c3327; border-radius:16px; background:linear-gradient(180deg,#081511,#05100c); overflow:hidden; }
+  .bar { display:flex; align-items:center; gap:9px; padding:14px 18px; border-bottom:1px solid #16261e; background:rgba(57,255,136,0.03); }
+  .dot { width:12px; height:12px; border-radius:6px; }
+  .title { color:var(--dim); font-size:20px; margin-left:10px; }
+  .body { padding:26px; }
+  .flow { display:flex; align-items:center; gap:14px; font-size:22px; margin-bottom:20px; flex-wrap:wrap; }
+  .job { border:1px solid #2a3327; border-radius:10px; padding:12px 16px; background:rgba(57,255,136,0.04); }
+  .job b { color:var(--cyan); }
+  .arrow { color:var(--dim); }
+  .queue { border:1px solid rgba(255,207,92,0.5); border-radius:10px; padding:12px 16px; background:rgba(255,207,92,0.06); }
+  .queue b { color:#FFCF5C; }
+  .worker { border:1px solid rgba(57,255,136,0.5); border-radius:10px; padding:12px 16px; background:rgba(57,255,136,0.06); }
+  .worker b { color:var(--green); }
+  .note { color:var(--dim); font-size:20px; margin-top:8px; }
+  .note b { color:var(--green); }
+</style>
+</head>
+<body>
+  <div class="panel">
+    <div class="bar"><span class="dot" style="background:var(--red)"></span><span class="dot" style="background:#FFCF5C"></span><span class="dot" style="background:var(--green)"></span><span class="title">queue.ts</span></div>
+    <div class="body">
+      <div class="flow">
+        <span class="job"><b>send email</b></span>
+        <span class="arrow">&rarr;</span>
+        <span class="job"><b>generate report</b></span>
+        <span class="arrow">&rarr;</span>
+        <span class="queue"><b>QUEUE</b></span>
+        <span class="arrow">&rarr;</span>
+        <span class="worker"><b>background worker</b></span>
+      </div>
+      <div class="note">user gets a <b>200 OK</b> instantly &mdash; heavy work runs later</div>
+    </div>
+  </div>
+</body>
+</html>

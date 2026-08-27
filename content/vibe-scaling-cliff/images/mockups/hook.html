@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --green:#39FF88; --cyan:#4DE8FF; --bg:#04070A; --red:#FF5C5C; --dim:#5f7d6f; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); font-family:'JetBrains Mono',ui-monospace,monospace; color:#d8ffe8; padding:34px; }
+  .panel { border:1px solid #1c3327; border-radius:16px; background:linear-gradient(180deg,#081511,#05100c); padding:26px; }
+  .bar { display:flex; align-items:center; gap:9px; padding:12px 16px; border-bottom:1px solid #16261e; background:rgba(57,255,136,0.03); border-radius:10px 10px 0 0; }
+  .dot { width:12px; height:12px; border-radius:6px; }
+  .title { color:var(--dim); font-size:20px; margin-left:10px; }
+  .head { color:var(--green); font-size:26px; font-weight:700; margin:20px 0 6px; }
+  .sub { color:var(--dim); font-size:18px; margin-bottom:18px; }
+  .row { display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px dashed #16261e; font-size:22px; }
+  .row:last-child { border-bottom:none; }
+  .users { color:var(--cyan); width:130px; }
+  .lat { color:#d8ffe8; width:190px; }
+  .ok { color:var(--green); } .warn { color:#FFCF5C; } .bad { color:var(--red); font-weight:700; }
+  .spark { margin-top:18px; }
+  .spark svg { width:100%; height:150px; display:block; }
+</style>
+</head>
+<body>
+  <div class="panel">
+    <div class="bar"><span class="dot" style="background:var(--red)"></span><span class="dot" style="background:#FFCF5C"></span><span class="dot" style="background:var(--green)"></span><span class="title">load-test.sh</span></div>
+    <div class="head">SCALING CLIFF</div>
+    <div class="sub">simulated traffic &mdash; latency vs users</div>
+    <div class="row"><span class="users">10 users</span><span class="lat">latency 12ms</span><span class="ok">OK</span></div>
+    <div class="row"><span class="users">100 users</span><span class="lat">latency 180ms</span><span class="warn">SLOW</span></div>
+    <div class="row"><span class="users">1,000 users</span><span class="lat">latency &mdash;&mdash;</span><span class="bad">CRASH</span></div>
+    <div class="spark">
+      <svg viewBox="0 0 900 150" preserveAspectRatio="none">
+        <polyline points="0,140 200,120 400,95 600,60 700,20 760,5 800,150" fill="none" stroke="#FF5C5C" stroke-width="5"/>
+        <line x1="0" y1="150" x2="900" y2="150" stroke="#1c3327" stroke-width="2"/>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

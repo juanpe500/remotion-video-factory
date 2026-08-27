@@ -1,0 +1,33 @@
+{
+  "slug": "vibe-scaling-cliff",
+  "jobs": [
+    {
+      "out": "hook.jpg",
+      "type": "html",
+      "html": "mockups/hook.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "Scaling cliff: latency vs users, 10 OK / 100 slow / 1000 crash."
+    },
+    {
+      "out": "step1.jpg",
+      "type": "html",
+      "html": "mockups/step1.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "Proper indexing: full scan 30s vs indexed query 2ms."
+    },
+    {
+      "out": "step2.jpg",
+      "type": "html",
+      "html": "mockups/step2.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "Caching strategy: cache hit 1ms, compute once."
+    },
+    {
+      "out": "step3.jpg",
+      "type": "html",
+      "html": "mockups/step3.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "Async queue: jobs to background worker, user gets 200 instantly."
+    }
+  ]
+}

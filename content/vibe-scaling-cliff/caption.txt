@@ -1,0 +1,1 @@
+Your vibe-coded app is fine at 10 users. At 1,000? Crash to the ground. Here's how to find the scaling cliff before your users do. 🚀

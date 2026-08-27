@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --green:#38B886; --cyan:#4ADE4F; --red:#FF5C5C; --dim:#5f7d6f; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#04070A; font-family:'JetBrains Mono',ui-monospace,monospace; padding:34px; }
+  .panel { border:1px solid #1c3327; border-radius:16px; background:linear-gradient(180deg,#081511,#05100c); overflow:hidden; }
+  .bar { display:flex; align-items:center; gap:9px; padding:14px 18px; border-bottom:1px solid #16261e; background:rgba(57,255,136,0.03); }
+  .dot { width:12px; height:12px; border-radius:6px; }
+  .title { color:var(--dim); font-size:20px; margin-left:10px; }
+  .body { padding:26px; }
+  .req { font-size:24px; color:#d8ffe8; margin-bottom:18px; }
+  .req b { color:var(--cyan); }
+  .box { border:1px solid #1c3327; border-radius:12px; padding:18px 20px; margin-bottom:14px; font-size:22px; }
+  .box .k { color:var(--dim); }
+  .hit { border-color:rgba(57,255,136,0.5); background:rgba(57,255,136,0.06); }
+  .hit .v { color:var(--green); font-weight:700; }
+  .miss { border-color:rgba(255,92,92,0.4); background:rgba(255,92,92,0.05); }
+  .miss .v { color:var(--red); }
+  .foot { color:var(--dim); font-size:20px; margin-top:8px; }
+  .foot b { color:var(--green); }
+</style>
+</head>
+<body>
+  <div class="panel">
+    <div class="bar"><span class="dot" style="background:var(--red)"></span><span class="dot" style="background:#FFCF5C"></span><span class="dot" style="background:var(--green)"></span><span class="title">cache.ts</span></div>
+    <div class="body">
+      <div class="req"><b>GET /profile</b> &mdash; 1,000 requests</div>
+      <div class="box hit"><span class="k">cache</span> &nbsp; <span class="v">HIT &mdash; 1ms</span> &nbsp; <span class="k">served from memory</span></div>
+      <div class="box miss"><span class="k">cache</span> &nbsp; <span class="v">MISS &mdash; compute once</span> &nbsp; <span class="k">then store</span></div>
+      <div class="foot">compute <b>once</b>, cache <b>once</b>, serve it <b>fast</b></div>
+    </div>
+  </div>
+</body>
+</html>
