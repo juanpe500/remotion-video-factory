@@ -1,0 +1,63 @@
+name: Render speed test
+
+# Manual speed benchmark: run the SAME pipeline the Viclix agent runs, for the
+# committed eu-ai-act-sgi reference, on a dedicated GitHub-hosted runner, and time
+# the render step. Compare vs the saturated Viclix host (~10 frames/min, ~3h).
+# Trigger from the Actions tab → "Render speed test" → Run workflow.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  render:
+    name: Render eu-ai-act-sgi Terminal (timed)
+    runs-on: ubuntu-latest
+    env:
+      TTS_PROVIDER: fish
+      FISH_BASE_URL: https://api.fish.audio
+      FISH_AUDIO_API_KEY: ${{ secrets.FISH_AUDIO_API_KEY }}
+      FISH_AUDIO_DEFAULT_VOICE_ID: ${{ secrets.FISH_AUDIO_DEFAULT_VOICE_ID }}
+      WHISPER_MODEL: small.en
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: nproc / cpu info
+        run: 'echo "cores: $(nproc)"; free -h | head -2'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Generate audio (Fish TTS)
+        run: npx tsx scripts/generate-audio.ts eu-ai-act-sgi
+
+      - name: Generate captions (whisper small.en)
+        run: npx tsx scripts/generate-captions.ts eu-ai-act-sgi
+
+      - name: Generate images (screenshots/mockups)
+        run: npx tsx scripts/generate-images.ts eu-ai-act-sgi
+
+      - name: Generate diagram (mdgraph → svg)
+        run: npx tsx scripts/generate-diagram.ts eu-ai-act-sgi compliance-flow || echo "diagram step failed (continuing)"
+
+      - name: RENDER (timed)
+        run: |
+          echo "=== render start $(date +%T) ==="
+          START=$(date +%s)
+          npx remotion render EuAiAct-Terminal out/speedtest.mp4
+          END=$(date +%s)
+          echo "=================================================="
+          echo "RENDER TOOK $((END-START)) SECONDS  ($(( (END-START)/60 ))m $(( (END-START)%60 ))s)"
+          echo "=================================================="
+
+      - name: mp4 info
+        run: ls -la out/speedtest.mp4; ffprobe -v error -show_entries format=duration,size -of default=nw=1 out/speedtest.mp4 || true
+
+      - name: Upload mp4
+        uses: actions/upload-artifact@v4
+        with:
+          name: speedtest-mp4
+          path: out/speedtest.mp4
