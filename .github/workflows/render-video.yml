@@ -1,0 +1,109 @@
+name: Render & upload video
+
+# Production render: run the mechanical pipeline (audio -> captions -> images ->
+# optional diagram -> render) for one already-scaffolded <slug> on a dedicated
+# GitHub runner, then upload the mp4 back to savagescroll. Triggered by the
+# video-builder agent (or manually) via workflow_dispatch. The per-<slug> scaffold
+# (content/<slug>/**, src/videos/<slug>/**, its Root.tsx registration) must exist
+# on the checked-out ref.
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "content/<slug> to render"
+        required: true
+      composition_id:
+        description: "Remotion composition id (e.g. VibeScalingCliff-Terminal)"
+        required: true
+      page_id:
+        description: "savagescroll page id (empty = render only, no upload)"
+        required: false
+        default: ""
+      subpage_id:
+        description: "savagescroll subpage id (empty + page = vault-only)"
+        required: false
+        default: ""
+      mode:
+        description: "schedule | vault"
+        required: false
+        default: "schedule"
+
+jobs:
+  render:
+    name: Render ${{ inputs.slug }}
+    runs-on: ubuntu-latest
+    env:
+      TTS_PROVIDER: fish
+      FISH_BASE_URL: https://api.fish.audio
+      FISH_AUDIO_API_KEY: ${{ secrets.FISH_AUDIO_API_KEY }}
+      FISH_AUDIO_DEFAULT_VOICE_ID: ${{ secrets.FISH_AUDIO_DEFAULT_VOICE_ID }}
+      SAVAGESCROLL_API_KEY: ${{ secrets.SAVAGESCROLL_API_KEY }}
+      WHISPER_MODEL: small.en
+      SLUG: ${{ inputs.slug }}
+      COMP: ${{ inputs.composition_id }}
+      PAGE_ID: ${{ inputs.page_id }}
+      SUBPAGE_ID: ${{ inputs.subpage_id }}
+      MODE: ${{ inputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Generate audio (Fish TTS)
+        run: npx tsx scripts/generate-audio.ts "$SLUG"
+
+      - name: Generate captions (whisper small.en)
+        run: npx tsx scripts/generate-captions.ts "$SLUG"
+
+      - name: Generate images
+        run: npx tsx scripts/generate-images.ts "$SLUG"
+
+      - name: Generate diagram (only if a .mdgraph exists)
+        run: |
+          shopt -s nullglob
+          found=0
+          for f in content/"$SLUG"/diagrams/*.mdgraph; do
+            found=1
+            npx tsx scripts/generate-diagram.ts "$SLUG" "$(basename "$f" .mdgraph)" || echo "diagram step failed (continuing)"
+          done
+          [ "$found" = 0 ] && echo "no diagram source for $SLUG; skipping" || true
+
+      - name: RENDER (timed)
+        run: |
+          echo "=== render start $(date +%T) ==="
+          S=$(date +%s)
+          npx remotion render "$COMP" "out/$SLUG.mp4"
+          echo "=== RENDER TOOK $(( $(date +%s) - S )) SECONDS ==="
+          ls -la "out/$SLUG.mp4"
+
+      - name: Upload to savagescroll
+        if: ${{ inputs.page_id != '' }}
+        run: |
+          set -e
+          ARGS=("out/$SLUG.mp4" --page "$PAGE_ID")
+          if [ -n "$SUBPAGE_ID" ] && [ "$MODE" = "schedule" ]; then
+            ARGS+=(--subpage "$SUBPAGE_ID")
+          else
+            ARGS+=(--vault-only)
+          fi
+          if [ -f "content/$SLUG/caption.txt" ]; then
+            ARGS+=(--caption-file "content/$SLUG/caption.txt")
+          fi
+          echo "upload args: ${ARGS[*]}"
+          npx tsx scripts/upload-savagescroll.ts "${ARGS[@]}"
+
+      - name: Upload mp4 artifact (backup / manual download)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.slug }}-mp4
+          path: out/${{ inputs.slug }}.mp4
+          retention-days: 3
