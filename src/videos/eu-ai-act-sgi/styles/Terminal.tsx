@@ -544,7 +544,7 @@ const STEP_BEATS: ImageBeatMeta[] = [
   },
 ];
 
-export const EuAiActTerminal: React.FC<AudioSyncedProps> = ({ narrationEndFrame }) => {
+export const Terminal: React.FC<AudioSyncedProps> = ({ narrationEndFrame }) => {
   const captions = useCaptions(CAPTIONS_FILE);
   const pages = useSentencePages(captions, MAX_WORDS_PER_PAGE);
   const { fps, durationInFrames } = useVideoConfig();
