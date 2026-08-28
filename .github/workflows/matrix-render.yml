@@ -84,6 +84,8 @@ jobs:
         run: npx tsx scripts/generate-audio.ts "$SLUG"
       - name: Generate captions (whisper small.en)
         run: npx tsx scripts/generate-captions.ts "$SLUG"
+      - name: Fix caption homophones against the script
+        run: npx tsx scripts/fix-captions.ts "$SLUG"
       - name: Generate images
         run: npx tsx scripts/generate-images.ts "$SLUG"
       - name: Generate diagram (only if a .mdgraph exists)
