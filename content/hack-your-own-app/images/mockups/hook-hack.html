@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #04070A; font-family: 'JetBrains Mono', ui-monospace, monospace; color: #39FF88; padding: 26px; }
+  .win { border: 1px solid #1c3327; border-radius: 14px; overflow: hidden; background: #05090c; box-shadow: 0 24px 70px rgba(0,0,0,.55); }
+  .bar { display: flex; align-items: center; gap: 9px; padding: 16px 20px; background: rgba(57,255,136,.04); border-bottom: 1px solid #16261e; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .title { color: #5f7d6f; font-size: 16px; margin-left: 12px; }
+  .body { padding: 26px 28px; font-size: 18px; line-height: 1.75; }
+  .prompt { color: #4DE8FF; }
+  .ok { color: #39FF88; }
+  .warn { color: #FFCF5C; }
+  .bad { color: #FF5C5C; }
+  .dim { color: #5f7d6f; }
+  .cursor { display: inline-block; width: 11px; height: 20px; background: #4DE8FF; vertical-align: middle; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+</style>
+</head>
+<body>
+  <div class="win">
+    <div class="bar">
+      <span class="dot" style="background:#FF5C5C"></span>
+      <span class="dot" style="background:#FFCF5C"></span>
+      <span class="dot" style="background:#39FF88"></span>
+      <span class="title">hack-your-own-app.sh — staging</span>
+    </div>
+    <div class="body">
+      <div><span class="prompt">$</span> ./hack_my_own_app.sh --target staging</div>
+      <div class="dim">[+] crawling https://app.staging.example.com ...</div>
+      <div class="dim">[+] 214 endpoints discovered</div>
+      <div class="warn">[!] SQL injection? /api/users?id=1' OR '1'='1</div>
+      <div class="warn">[!] XSS? /search?q=&lt;script&gt;alert(1)&lt;/script&gt;</div>
+      <div class="bad">[!] broken auth? /admin — no session required</div>
+      <div class="ok">[+] 3 findings in 42 seconds. Nice.</div>
+      <div><span class="prompt">$</span> <span class="cursor"></span></div>
+    </div>
+  </div>
+</body>
+</html>

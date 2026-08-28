@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #04070A; font-family: 'JetBrains Mono', ui-monospace, monospace; color: #39FF88; padding: 26px; }
+  .card { border: 1px solid #1c3327; border-radius: 14px; overflow: hidden; background: #05090c; box-shadow: 0 24px 70px rgba(0,0,0,.55); }
+  .head { padding: 22px 26px; border-bottom: 1px solid #16261e; background: rgba(57,255,136,.04); }
+  .head h1 { font-size: 24px; color: #39FF88; }
+  .head .sub { color: #5f7d6f; font-size: 15px; margin-top: 8px; }
+  .stats { display: flex; gap: 14px; padding: 20px 26px; }
+  .stat { flex: 1; border: 1px solid #16261e; border-radius: 10px; padding: 16px; text-align: center; background: #060b0e; }
+  .stat .n { font-size: 38px; font-weight: 700; }
+  .stat .l { font-size: 14px; color: #5f7d6f; margin-top: 6px; letter-spacing: 2px; }
+  .high .n { color: #FF5C5C; } .med .n { color: #FFCF5C; } .low .n { color: #4DE8FF; }
+  .list { padding: 4px 26px 26px; }
+  .row { display: flex; align-items: center; gap: 16px; padding: 15px 16px; border: 1px solid #16261e; border-radius: 10px; margin-bottom: 11px; background: #060b0e; }
+  .sev { font-size: 13px; font-weight: 700; padding: 5px 10px; border-radius: 6px; width: 78px; text-align: center; }
+  .sev.h { background: rgba(255,92,92,.12); color: #FF5C5C; border: 1px solid rgba(255,92,92,.4); }
+  .sev.m { background: rgba(255,207,92,.1); color: #FFCF5C; border: 1px solid rgba(255,207,92,.35); }
+  .sev.l { background: rgba(77,232,255,.1); color: #4DE8FF; border: 1px solid rgba(77,232,255,.35); }
+  .row .name { font-size: 18px; color: #e8fff2; flex: 1; }
+  .row .url { font-size: 14px; color: #5f7d6f; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="head">
+      <h1>OWASP ZAP — ACTIVE SCAN REPORT</h1>
+      <div class="sub">target: https://app.staging.example.com · 214 endpoints · top-10 scan</div>
+    </div>
+    <div class="stats">
+      <div class="stat high"><div class="n">3</div><div class="l">HIGH</div></div>
+      <div class="stat med"><div class="n">4</div><div class="l">MEDIUM</div></div>
+      <div class="stat low"><div class="n">2</div><div class="l">LOW</div></div>
+    </div>
+    <div class="list">
+      <div class="row"><span class="sev h">HIGH</span><span class="name">SQL Injection</span><span class="url">/api/users?id=</span></div>
+      <div class="row"><span class="sev h">HIGH</span><span class="name">Cross-Site Scripting</span><span class="url">/search?q=</span></div>
+      <div class="row"><span class="sev h">HIGH</span><span class="name">Broken Authentication</span><span class="url">/admin</span></div>
+      <div class="row"><span class="sev m">MED</span><span class="name">Missing Security Headers</span><span class="url">/</span></div>
+    </div>
+  </div>
+</body>
+</html>

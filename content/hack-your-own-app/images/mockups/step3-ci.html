@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #04070A; font-family: 'JetBrains Mono', ui-monospace, monospace; color: #e8fff2; padding: 26px; }
+  .card { border: 1px solid #1c3327; border-radius: 14px; overflow: hidden; background: #05090c; box-shadow: 0 24px 70px rgba(0,0,0,.55); }
+  .bar { display: flex; align-items: center; gap: 9px; padding: 16px 20px; background: rgba(57,255,136,.04); border-bottom: 1px solid #16261e; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .title { color: #5f7d6f; font-size: 16px; margin-left: 12px; }
+  .body { padding: 24px 28px; }
+  .job { display: flex; align-items: center; gap: 16px; padding: 16px; border: 1px solid #16261e; border-radius: 10px; margin-bottom: 12px; background: #060b0e; }
+  .check { color: #39FF88; font-size: 22px; width: 28px; text-align: center; }
+  .jname { font-size: 19px; color: #e8fff2; flex: 1; }
+  .jsub { font-size: 14px; color: #5f7d6f; }
+  .foot { margin-top: 8px; padding: 14px 16px; border: 1px dashed #1c3327; border-radius: 10px; color: #4DE8FF; font-size: 15px; text-align: center; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="bar">
+      <span class="dot" style="background:#FF5C5C"></span>
+      <span class="dot" style="background:#FFCF5C"></span>
+      <span class="dot" style="background:#39FF88"></span>
+      <span class="title">security.yml — GitHub Actions</span>
+    </div>
+    <div class="body">
+      <div class="job"><span class="check">✓</span><span class="jname">semgrep</span><span class="jsub">SAST — 0 new findings</span></div>
+      <div class="job"><span class="check">✓</span><span class="jname">code-scanning</span><span class="jsub">GitHub built-in — clean</span></div>
+      <div class="job"><span class="check">✓</span><span class="jname">trufflehog</span><span class="jsub">secrets — no hard-coded keys</span></div>
+      <div class="job"><span class="check">✓</span><span class="jname">gitleaks</span><span class="jsub">secrets — clean</span></div>
+      <div class="foot">every push → scanned · every PR → secrets check</div>
+    </div>
+  </div>
+</body>
+</html>

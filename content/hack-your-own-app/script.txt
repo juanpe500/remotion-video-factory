@@ -1,0 +1,5 @@
+[confident] You build security, yes? RLS, auth, HTTPS. [sarcastic] Ever tried to hack your own app? Someone else will.
+One: Run OWASP ZAP. Free, open source, one Docker command. It crawls everything, tests the top ten: SQL injection, XSS, broken auth. Run it on staging, fix before production.
+Two: [mocking] Test your API in Burp Suite. Intercept requests, swap user ID and JWT. Change org ID — another tenant? Change role — admin? If yes, your auth is Swiss cheese. RLS is not enough.
+Three: Automate it in CI. Semgrep, code scanning, GitGuardian, TruffleHog. Every push scanned, every PR checked for secrets. Security is not one-time audit — it is continuous, every commit.
+[groaning] Scan, intercept, automate. No fifty-grand pen-testing firm — same tools, free. Run them before the breach. When did you last hack your own app? Too long. Try it now. Great success!

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #04070A; font-family: 'JetBrains Mono', ui-monospace, monospace; color: #e8fff2; padding: 26px; }
+  .card { border: 1px solid #1c3327; border-radius: 14px; overflow: hidden; background: #05090c; box-shadow: 0 24px 70px rgba(0,0,0,.55); }
+  .bar { display: flex; align-items: center; gap: 9px; padding: 16px 20px; background: rgba(57,255,136,.04); border-bottom: 1px solid #16261e; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .title { color: #5f7d6f; font-size: 16px; margin-left: 12px; }
+  .body { padding: 24px 28px; font-size: 17px; line-height: 1.75; }
+  .req { color: #4DE8FF; }
+  .hdr { color: #9fbcae; }
+  .tamper { background: rgba(255,92,92,.08); border: 1px solid rgba(255,92,92,.45); border-radius: 10px; padding: 14px 16px; margin: 14px 0; }
+  .tamper .lbl { color: #FF5C5C; font-size: 14px; margin-bottom: 10px; }
+  .old { color: #5f7d6f; text-decoration: line-through; }
+  .new { color: #FF5C5C; }
+  .arrow { color: #FFCF5C; }
+  .ok { color: #39FF88; }
+  .dim { color: #5f7d6f; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="bar">
+      <span class="dot" style="background:#FF5C5C"></span>
+      <span class="dot" style="background:#FFCF5C"></span>
+      <span class="dot" style="background:#39FF88"></span>
+      <span class="title">Burp Suite — Proxy Intercept</span>
+    </div>
+    <div class="body">
+      <div class="req">GET /api/orgs/1234/users/5678 HTTP/1.1</div>
+      <div class="hdr">Host: api.staging.example.com</div>
+      <div class="hdr">Authorization: Bearer eyJhbGciOiJIUzI1NiIs...</div>
+      <div class="tamper">
+        <div class="lbl">▲ TAMPERED — forward to server</div>
+        <div><span class="old">user_id=5678</span> <span class="arrow">→</span> <span class="new">user_id=9999</span></div>
+        <div><span class="old">"org_id": "1234"</span> <span class="arrow">→</span> <span class="new">"org_id": "9999"</span></div>
+        <div><span class="old">"role": "user"</span> <span class="arrow">→</span> <span class="new">"role": "admin"</span></div>
+      </div>
+      <div class="ok">[+] 200 OK — another tenant's data returned</div>
+      <div class="dim">authorization: holes like Swiss cheese</div>
+    </div>
+  </div>
+</body>
+</html>

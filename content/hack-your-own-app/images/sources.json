@@ -1,0 +1,33 @@
+{
+  "slug": "hack-your-own-app",
+  "jobs": [
+    {
+      "out": "hook-hack.jpg",
+      "type": "html",
+      "html": "mockups/hook-hack.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "terminal: hack-your-own-app.sh scan in progress, findings piling up"
+    },
+    {
+      "out": "step1-zap.jpg",
+      "type": "html",
+      "html": "mockups/step1-zap.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "OWASP ZAP active scan report: top-10 findings with severity counts"
+    },
+    {
+      "out": "step2-burp.jpg",
+      "type": "html",
+      "html": "mockups/step2-burp.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "Burp Suite intercepted request with tampered user ID, org ID and role claim"
+    },
+    {
+      "out": "step3-ci.jpg",
+      "type": "html",
+      "html": "mockups/step3-ci.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "CI pipeline security.yml: semgrep, code-scanning, trufflehog, gitleaks all green"
+    }
+  ]
+}
