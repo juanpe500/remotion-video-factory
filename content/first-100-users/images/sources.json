@@ -1,0 +1,33 @@
+{
+  "slug": "first-100-users",
+  "jobs": [
+    {
+      "out": "hook-db-lock.jpg",
+      "type": "html",
+      "html": "mockups/hook-db-lock.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "database connection limit error when 50 users sign up"
+    },
+    {
+      "out": "step1-pooling.jpg",
+      "type": "html",
+      "html": "mockups/step1-pooling.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "connection pooling: 50 requests share 10 connections"
+    },
+    {
+      "out": "step2-cache.jpg",
+      "type": "html",
+      "html": "mockups/step2-cache.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "caching layer: Redis hit, 800ms to 50ms"
+    },
+    {
+      "out": "step3-loadtest.jpg",
+      "type": "html",
+      "html": "mockups/step3-loadtest.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "k6 load test results before launch"
+    }
+  ]
+}

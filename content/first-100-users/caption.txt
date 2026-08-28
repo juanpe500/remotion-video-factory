@@ -1,0 +1,1 @@
+50 users and your app is dead? Connection pooling, a caching layer, and a load test before launch — that's how you survive your first 100. How many users did it take to crash yours? Drop it below. 👇

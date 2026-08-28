@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'JetBrains Mono';src:local('JetBrains Mono');}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#04070A;font-family:'JetBrains Mono',ui-monospace,monospace;color:#39FF88;display:flex;align-items:center;justify-content:center;height:100vh;}
+.card{width:900px;background:linear-gradient(180deg,#081511,#05100c);border:1px solid #1c3327;border-radius:16px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.5);}
+.bar{display:flex;align-items:center;gap:9px;padding:14px 20px;border-bottom:1px solid #16261e;background:rgba(57,255,136,.03);}
+.dot{width:12px;height:12px;border-radius:6px;}
+.title{font-size:20px;color:#5f7d6f;margin-left:12px;}
+.body{padding:30px 34px;font-size:24px;line-height:1.5;}
+.row{display:flex;align-items:center;gap:14px;margin:16px 0;}
+.box{border:1px solid #1c3327;border-radius:10px;padding:12px 16px;text-align:center;}
+.cyan{color:#4DE8FF;}
+.dim{color:#5f7d6f;}
+.arrow{color:#5f7d6f;font-size:30px;}
+.cache{background:rgba(77,232,255,.06);border-color:#4DE8FF;}
+.good{color:#39FF88;}
+.bad{color:#FF5C5C;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="bar"><span class="dot" style="background:#FF5C5C"></span><span class="dot" style="background:#FFCF5C"></span><span class="dot" style="background:#39FF88"></span><span class="title">cache</span></div>
+  <div class="body">
+    <div class="row">
+      <div class="box">API<br><span class="dim">100 reqs</span></div>
+      <span class="arrow">→</span>
+      <div class="box cache">Redis<br><span class="cyan">hit</span></div>
+      <span class="arrow">→</span>
+      <div class="box">DB<br><span class="dim">1 hit</span></div>
+    </div>
+    <div class="row">
+      <div class="box bad">before<br><span class="dim">800 ms</span></div>
+      <div class="box good" style="border-color:#39FF88;background:rgba(57,255,136,.06)">after<br><span class="glow">50 ms</span></div>
+    </div>
+    <div class="dim">load down 80%</div>
+  </div>
+</div>
+</body>
+</html>

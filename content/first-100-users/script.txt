@@ -1,0 +1,6 @@
+[hook] Fifty people sign up, and your database locks up. Not great.
+[confident] Here's how to survive your first hundred users.
+[sad] One: pool connections. Every request opens a new connection. Fifty requests, fifty connections. You hit the limit, the app dies. [confident] Pooling reuses connections. Fifty share ten. Supabase has it. Self-hosted? pgbouncer. Instant relief.
+[confident] Two: add a cache. Same data requested a hundred times? Do not hit the database a hundred times. Redis, upstash, in-memory. [emphasis] API drops from eight hundred to fifty milliseconds, load down eighty percent.
+[determined] Three: load test before launch. K6, artillery, both free. Simulate a hundred users at once. Find the first wall before your users find it. [whispering] Break in the test, fix it quietly. [groaning] Break in production, you lose customers loudly.
+[confident] How many users did it take to crash your app? Drop it below.

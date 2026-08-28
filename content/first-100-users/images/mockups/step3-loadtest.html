@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'JetBrains Mono';src:local('JetBrains Mono');}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#04070A;font-family:'JetBrains Mono',ui-monospace,monospace;color:#39FF88;display:flex;align-items:center;justify-content:center;height:100vh;}
+.card{width:900px;background:linear-gradient(180deg,#081511,#05100c);border:1px solid #1c3327;border-radius:16px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.5);}
+.bar{display:flex;align-items:center;gap:9px;padding:14px 20px;border-bottom:1px solid #16261e;background:rgba(57,255,136,.03);}
+.dot{width:12px;height:12px;border-radius:6px;}
+.title{font-size:20px;color:#5f7d6f;margin-left:12px;}
+.body{padding:30px 34px;font-size:24px;line-height:1.6;}
+.cyan{color:#4DE8FF;}
+.dim{color:#5f7d6f;}
+.good{color:#39FF88;}
+.bad{color:#FF5C5C;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="bar"><span class="dot" style="background:#FF5C5C"></span><span class="dot" style="background:#FFCF5C"></span><span class="dot" style="background:#39FF88"></span><span class="title">k6 load test</span></div>
+  <div class="body">
+    <div class="cyan">$ k6 run load.js</div>
+    <div>100 virtual users <span class="dim">·</span> 30s</div>
+    <div>http_req_duration <span class="dim">p95</span> <span class="good">120 ms</span></div>
+    <div>http_req_failed <span class="good">0.0%</span></div>
+    <div class="bad">bottleneck: db connections</div>
+    <div class="dim">fix it here, not in prod ▌</div>
+  </div>
+</div>
+</body>
+</html>
