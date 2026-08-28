@@ -13,6 +13,7 @@
  * Env:
  *   GITHUB_TOKEN — fine-grained PAT with Contents:write + Actions:write on the repo.
  */
+import "dotenv/config"; // load /app/.env → GITHUB_TOKEN
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
