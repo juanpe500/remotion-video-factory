@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1000px; height: 820px;
+    background: #04070A;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    color: #dfece4;
+    padding: 34px 40px;
+    overflow: hidden;
+  }
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 22px; color: #39FF88; border-bottom: 1px solid #16261e; padding-bottom: 18px;
+  }
+  .topbar .bot { color: #4DE8FF; }
+  .topbar .n { color: #9fbcae; }
+  .diff {
+    margin-top: 24px; border: 1px solid #1c3327; border-radius: 12px; overflow: hidden;
+    background: #05100c; font-size: 20px; line-height: 1.55;
+  }
+  .diff .bar { padding: 12px 20px; color: #9fbcae; border-bottom: 1px solid #16261e; font-size: 18px; }
+  .diff .line { padding: 10px 20px; white-space: pre-wrap; }
+  .diff .bad { color: #FF5C5C; background: rgba(255,92,92,0.07); }
+  .pin { color: #FF5C5C; font-weight: 700; margin-right: 10px; }
+  .card { margin-top: 22px; border-radius: 12px; padding: 18px 24px; border-left: 5px solid; }
+  .card .tag { font-size: 18px; letter-spacing: 1px; margin-bottom: 8px; }
+  .card .body { font-size: 24px; line-height: 1.45; }
+  .card.red   { background: rgba(255,92,92,0.08); border-color: #FF5C5C; }
+  .card.yellow{ background: rgba(255,207,92,0.08); border-color: #FFCF5C; }
+  .card.cyan  { background: rgba(77,232,255,0.08); border-color: #4DE8FF; }
+  .card.red   .tag { color: #FF5C5C; }
+  .card.yellow .tag { color: #FFCF5C; }
+  .card.cyan .tag { color: #4DE8FF; }
+  .card .l { color: #9fbcae; font-size: 18px; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <span class="bot">ai-review[bot]</span>
+    <span class="n">reviewed this PR &middot; 3 comments &middot; all required</span>
+  </div>
+  <div class="diff">
+    <div class="bar">src/orders.py &mdash; line 42</div>
+    <div class="line bad"><span class="pin">◉</span>rows = db.query("SELECT * FROM users WHERE id=" + input)</div>
+  </div>
+  <div class="card red">
+    <div class="tag">◉ SECURITY &mdash; HIGH</div>
+    <div class="body">SQL injection vector. <span class="l">line 42</span><br/>User input is concatenated straight into the query.</div>
+  </div>
+  <div class="card yellow">
+    <div class="tag">◉ PERFORMANCE</div>
+    <div class="body">N+1 query: <span class="l">load_orders()</span> fires one SELECT per customer.</div>
+  </div>
+  <div class="card cyan">
+    <div class="tag">◉ LOGIC</div>
+    <div class="body">Unhandled edge case: empty cart dereferences null. <span class="l">line 71</span></div>
+  </div>
+</body>
+</html>

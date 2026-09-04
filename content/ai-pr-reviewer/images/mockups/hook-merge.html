@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1000px; height: 820px;
+    background: #04070A;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    color: #dfece4;
+    display: flex; flex-direction: column;
+    padding: 34px 40px;
+    overflow: hidden;
+  }
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 22px; color: #39FF88; border-bottom: 1px solid #16261e; padding-bottom: 18px;
+  }
+  .topbar .gh { color: #9fbcae; }
+  .topbar .pr { color: #4DE8FF; }
+  .title { margin-top: 26px; font-size: 40px; font-weight: 700; color: #f2fff8; }
+  .title .label {
+    font-size: 20px; color: #04070A; background: #FFCF5C; border-radius: 8px;
+    padding: 4px 12px; margin-left: 12px; vertical-align: middle; font-weight: 500;
+  }
+  .meta { margin-top: 14px; font-size: 24px; color: #9fbcae; }
+  .meta b { color: #39FF88; font-weight: 500; }
+  .warning {
+    margin-top: 28px; border: 2px solid #FF5C5C; border-radius: 14px;
+    background: rgba(255,92,92,0.08); padding: 24px 28px;
+  }
+  .warning .head { font-size: 30px; color: #FF5C5C; font-weight: 700; letter-spacing: 1px; }
+  .warning .sub { margin-top: 10px; font-size: 24px; color: #dfece4; }
+  .stats { display: flex; gap: 18px; margin-top: 26px; }
+  .stat {
+    flex: 1; border: 1px solid #1c3327; border-radius: 12px; padding: 20px 22px;
+    background: linear-gradient(180deg, #081511, #05100c);
+  }
+  .stat .v { font-size: 40px; font-weight: 700; }
+  .stat .k { margin-top: 6px; font-size: 18px; color: #9fbcae; }
+  .stat.red .v { color: #FF5C5C; }
+  .stat.green .v { color: #39FF88; }
+  .stat.cyan .v { color: #4DE8FF; }
+  .diff {
+    margin-top: 26px; border: 1px solid #1c3327; border-radius: 12px; overflow: hidden;
+    background: #05100c; font-size: 21px; line-height: 1.5;
+  }
+  .diff .bar { padding: 12px 20px; color: #9fbcae; border-bottom: 1px solid #16261e; font-size: 18px; }
+  .diff .line { padding: 10px 20px; }
+  .diff .add { color: #39FF88; background: rgba(57,255,136,0.06); }
+  .diff .del { color: #FF5C5C; background: rgba(255,92,92,0.06); }
+  .diff .cmt { color: #5f7d6f; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <span class="gh">github.com/juanpe500/codebase</span>
+    <span class="pr">PR #1284</span>
+  </div>
+  <div class="title">
+    chore: make cache eviction smarter <span class="label">copilot[bot]</span>
+  </div>
+  <div class="meta"><b>+1,284</b> &minus;19 &nbsp;·&nbsp; 14 files &nbsp;·&nbsp; merged 3 months ago &nbsp;·&nbsp; <b>0</b> human reviews</div>
+  <div class="warning">
+    <div class="head">⚠ TECH DEBT: UNKNOWN</div>
+    <div class="sub">Nobody read this code. Nobody understands it. It runs in production.</div>
+  </div>
+  <div class="stats">
+    <div class="stat red"><div class="v">14</div><div class="k">files changed</div></div>
+    <div class="stat green"><div class="v">0</div><div class="k">human reviews</div></div>
+    <div class="stat cyan"><div class="v">???</div><div class="k">current understanding</div></div>
+  </div>
+  <div class="diff">
+    <div class="bar">src/cache.py</div>
+    <div class="line del">&minus;   # TODO: fix this later</div>
+    <div class="line add">+   <span class="cmt"># TODO: what does this even do?</span></div>
+    <div class="line add">+   <span class="cmt"># AI wrote it. merge was instant.</span></div>
+  </div>
+</body>
+</html>

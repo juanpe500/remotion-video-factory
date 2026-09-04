@@ -1,0 +1,11 @@
+[confident] Great success! The AI wrote your code, you shipped it without reading, and now you have tech debt you do not understand. [sarcastic] Very nice.
+
+Here is how we fix. Three steps.
+
+One: [confident] Add an AI reviewer to your pull request pipeline. Code Rabbit, Sorcery, or a custom action calling Claude. Every PR gets an automated review — security, performance, logic errors — with inline comments. [emphasis] Read it before you merge. A win.
+
+Two: [sarcastic] Prompt for architecture, not syntax. [mocking] Typos? Useless. Focus business logic, SQL injection, edge cases, N plus one queries. Ignore style. Flag auth, payments, deletions. Catch what breaks production, not a linter. A win.
+
+Three: [confident] Gate merges on review. Required status check — no merge until AI review passes. Critical blocks, warnings informational. [happy] Two safety nets now: AI before the merge, canary after.
+
+[determined] You are the orchestrator, making the final call. [proud] An AI-directed engineer. [confident] Talk to you soon!

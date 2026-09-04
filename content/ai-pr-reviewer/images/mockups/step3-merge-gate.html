@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1000px; height: 820px;
+    background: #04070A;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    color: #dfece4;
+    padding: 34px 40px;
+    overflow: hidden;
+  }
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 22px; color: #39FF88; border-bottom: 1px solid #16261e; padding-bottom: 18px;
+  }
+  .topbar .blocked { color: #FF5C5C; font-weight: 700; }
+  .checks { margin-top: 26px; }
+  .check {
+    display: flex; justify-content: space-between; align-items: center;
+    border: 1px solid #1c3327; border-radius: 12px; padding: 18px 24px; margin-top: 14px;
+    background: linear-gradient(180deg, #081511, #05100c); font-size: 24px;
+  }
+  .check .st { font-size: 20px; letter-spacing: 1px; }
+  .check.pass .st { color: #39FF88; }
+  .check .mark { font-size: 28px; }
+  .check.pass .mark { color: #39FF88; }
+  .legend { display: flex; gap: 16px; margin-top: 26px; }
+  .lg { flex: 1; border-radius: 12px; padding: 16px 20px; font-size: 19px; border: 1px solid #1c3327; }
+  .lg .t { font-weight: 700; font-size: 21px; }
+  .lg.crit { background: rgba(255,92,92,0.08); border-color: #FF5C5C; }
+  .lg.crit .t { color: #FF5C5C; }
+  .lg.info { background: rgba(255,207,92,0.08); border-color: #FFCF5C; }
+  .lg.info .t { color: #FFCF5C; }
+  .lg .d { color: #9fbcae; margin-top: 6px; }
+  .unlock {
+    margin-top: 26px; border: 2px solid #39FF88; border-radius: 14px;
+    background: rgba(57,255,136,0.08); padding: 22px 28px; text-align: center;
+  }
+  .unlock .a { font-size: 32px; color: #39FF88; font-weight: 700; letter-spacing: 1px; }
+  .unlock .b { margin-top: 8px; font-size: 22px; color: #dfece4; }
+  .unlock .b .cyan { color: #4DE8FF; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <span>Pull request #1284</span>
+    <span class="blocked">MERGE BLOCKED — required checks</span>
+  </div>
+  <div class="checks">
+    <div class="check pass">
+      <span>AI Review — <b style="color:#39FF88">0 critical issues</b> · 2 warnings (info)</span>
+      <span class="mark">✓</span>
+    </div>
+    <div class="check pass">
+      <span>Canary deploy — <b style="color:#4DE8FF">healthy, 5% traffic</b></span>
+      <span class="mark">✓</span>
+    </div>
+    <div class="check pass">
+      <span>CI — <b style="color:#39FF88">passed</b></span>
+      <span class="mark">✓</span>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="lg crit"><div class="t">CRITICAL</div><div class="d">blocks the merge</div></div>
+    <div class="lg info"><div class="t">WARNING</div><div class="d">informational only</div></div>
+  </div>
+  <div class="unlock">
+    <div class="a">✓ MERGE UNLOCKED</div>
+    <div class="b">AI caught it before the merge &middot; <span class="cyan">canary caught it after</span></div>
+  </div>
+</body>
+</html>

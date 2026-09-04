@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1000px; height: 820px;
+    background: #04070A;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    color: #dfece4;
+    padding: 34px 40px;
+    overflow: hidden;
+  }
+  .editor {
+    border: 1px solid #1c3327; border-radius: 16px; overflow: hidden;
+    background: linear-gradient(180deg, #081511, #05100c);
+    box-shadow: 0 24px 70px rgba(0,0,0,0.5);
+  }
+  .bar {
+    display: flex; align-items: center; gap: 9px;
+    padding: 16px 22px; border-bottom: 1px solid #16261e;
+    background: rgba(57,255,136,0.03);
+  }
+  .bar .dot { width: 12px; height: 12px; border-radius: 6px; }
+  .bar .r { background: #FF5C5C; }
+  .bar .y { background: #FFCF5C; }
+  .bar .g { background: #39FF88; }
+  .bar .name { color: #5f7d6f; font-size: 20px; margin-left: 12px; }
+  .code { padding: 24px 28px; font-size: 30px; line-height: 1.55; }
+  .code .ln { color: #5f7d6f; opacity: 0.6; width: 34px; display: inline-block; text-align: right; margin-right: 20px; }
+  .kw { color: #FF7CE5; }
+  .fn { color: #FFCF5C; }
+  .k { color: #39FF88; }
+  .a { color: #4DE8FF; }
+  .p { color: #9fbcae; }
+  .s { color: #FFB86B; }
+  .cmt { color: #5f7d6f; }
+  .footer {
+    margin-top: 26px; border-top: 1px dashed #1c3327; padding-top: 20px;
+    font-size: 22px; color: #4DE8FF;
+  }
+  .footer .dim { color: #5f7d6f; }
+</style>
+</head>
+<body>
+  <div class="editor">
+    <div class="bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="name">review-prompt.yaml</span>
+    </div>
+    <div class="code">
+      <span class="ln">1</span><span class="k">focus</span><span class="p">:</span><br/>
+      <span class="ln">2</span><span class="a">&nbsp;&nbsp;- business_logic</span><br/>
+      <span class="ln">3</span><span class="a">&nbsp;&nbsp;- sql_injection</span><br/>
+      <span class="ln">4</span><span class="a">&nbsp;&nbsp;- edge_cases</span><br/>
+      <span class="ln">5</span><span class="a">&nbsp;&nbsp;- n_plus_one_queries</span><br/>
+      <span class="ln">6</span><span class="k">ignore</span><span class="p">:</span> <span class="s">[style, formatting, typos]</span><br/>
+      <span class="ln">7</span><span class="k">flag_hard</span><span class="p">:</span><br/>
+      <span class="ln">8</span><span class="a">&nbsp;&nbsp;- auth</span><br/>
+      <span class="ln">9</span><span class="a">&nbsp;&nbsp;- payments</span><br/>
+      <span class="ln">10</span><span class="a">&nbsp;&nbsp;- data_deletions</span>
+    </div>
+  </div>
+  <div class="footer"><span class="dim">$</span> review_architecture(ignore_style=True) <span class="dim"># catch what breaks prod, not a linter</span></div>
+</body>
+</html>

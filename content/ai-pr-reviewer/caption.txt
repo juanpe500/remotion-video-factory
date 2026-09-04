@@ -1,0 +1,1 @@
+Your AI wrote the code — now make your AI review it. Three moves: review every PR, prompt for architecture, and gate the merge. Two safety nets, and you stay the one in charge.

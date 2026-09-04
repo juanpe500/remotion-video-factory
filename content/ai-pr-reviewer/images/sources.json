@@ -1,0 +1,33 @@
+{
+  "slug": "ai-pr-reviewer",
+  "jobs": [
+    {
+      "out": "hook-merge.jpg",
+      "type": "html",
+      "html": "mockups/hook-merge.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "A PR merged with zero human reviews, three months later nobody understands it"
+    },
+    {
+      "out": "step1-ai-review.jpg",
+      "type": "html",
+      "html": "mockups/step1-ai-review.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "AI reviewer posts inline comments: security, performance, logic issues on the diff"
+    },
+    {
+      "out": "step2-prompt.jpg",
+      "type": "html",
+      "html": "mockups/step2-prompt.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "Reviewer prompt configured for architecture: business logic, SQL injection, edge cases, N+1"
+    },
+    {
+      "out": "step3-merge-gate.jpg",
+      "type": "html",
+      "html": "mockups/step3-merge-gate.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "Merge blocked until required checks pass: AI review green plus canary deployment"
+    }
+  ]
+}
