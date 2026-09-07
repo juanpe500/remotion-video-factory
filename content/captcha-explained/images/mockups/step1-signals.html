@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #04070A; font-family: 'JetBrains Mono', ui-monospace, monospace; color: #d7ffe9; display: flex; align-items: center; justify-content: center; height: 100vh; }
+  .card { width: 920px; border: 1px solid #1c3327; border-radius: 16px; background: linear-gradient(180deg, #081511, #05100c); overflow: hidden; box-shadow: 0 24px 70px rgba(0,0,0,0.5); }
+  .bar { display: flex; align-items: center; gap: 9px; padding: 14px 20px; border-bottom: 1px solid #16261e; background: rgba(57,255,136,0.03); }
+  .dot { width: 12px; height: 12px; border-radius: 6px; }
+  .title { color: #5f7d6f; font-size: 22px; margin-left: 12px; }
+  .body { padding: 26px; }
+  h2 { color: #4DE8FF; font-size: 26px; margin-bottom: 18px; letter-spacing: 1px; }
+  .row { display: flex; align-items: center; gap: 16px; padding: 18px 20px; border: 1px solid #1c3327; border-radius: 10px; margin-bottom: 12px; background: #020609; font-size: 22px; }
+  .num { color: #5f7d6f; width: 40px; }
+  .name { color: #39FF88; font-weight: 700; width: 260px; }
+  .desc { color: #9fbcae; flex: 1; }
+  .st { color: #39FF88; }
+  .st.watch { color: #FFCF5C; }
+  .foot { margin-top: 8px; font-size: 20px; color: #5f7d6f; }
+  .foot b { color: #FF5C5C; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="bar">
+      <span class="dot" style="background:#FF5C5C"></span>
+      <span class="dot" style="background:#FFCF5C"></span>
+      <span class="dot" style="background:#39FF88"></span>
+      <span class="title">signals.sh — four things it scores</span>
+    </div>
+    <div class="body">
+      <h2>FOUR SIGNALS, ONE VERDICT</h2>
+      <div class="row"><span class="num">01</span><span class="name">cookies</span><span class="desc">session + history</span><span class="st">[OK]</span></div>
+      <div class="row"><span class="num">02</span><span class="name">browser</span><span class="desc">fingerprint</span><span class="st">[OK]</span></div>
+      <div class="row"><span class="num">03</span><span class="name">network</span><span class="desc">ip / latency</span><span class="st">[OK]</span></div>
+      <div class="row"><span class="num">04</span><span class="name">pointer</span><span class="desc">path to the box</span><span class="st watch">[WATCHING]</span></div>
+      <div class="foot">verdict: <b>decided before the click</b></div>
+    </div>
+  </div>
+</body>
+</html>

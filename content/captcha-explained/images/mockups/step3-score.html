@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #04070A; font-family: 'JetBrains Mono', ui-monospace, monospace; color: #d7ffe9; display: flex; align-items: center; justify-content: center; height: 100vh; }
+  .card { width: 920px; border: 1px solid #1c3327; border-radius: 16px; background: linear-gradient(180deg, #081511, #05100c); overflow: hidden; box-shadow: 0 24px 70px rgba(0,0,0,0.5); }
+  .bar { display: flex; align-items: center; gap: 9px; padding: 14px 20px; border-bottom: 1px solid #16261e; background: rgba(57,255,136,0.03); }
+  .dot { width: 12px; height: 12px; border-radius: 6px; }
+  .title { color: #5f7d6f; font-size: 22px; margin-left: 12px; }
+  .body { padding: 26px; }
+  h2 { color: #4DE8FF; font-size: 26px; margin-bottom: 18px; letter-spacing: 1px; }
+  .gauge { background: #020609; border: 1px solid #1c3327; border-radius: 12px; padding: 22px 24px; }
+  .scale { position: relative; height: 40px; border-radius: 8px; overflow: hidden; display: flex; }
+  .lo { flex: 1; background: linear-gradient(90deg, #3a1210, #7a1f1c); }
+  .hi { flex: 1; background: linear-gradient(90deg, #0f3d24, #39FF88); }
+  .marker { position: absolute; left: 50%; top: -6px; bottom: -6px; width: 4px; background: #fff; box-shadow: 0 0 10px #fff; }
+  .labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 20px; color: #5f7d6f; }
+  .thresh { text-align: center; font-size: 20px; color: #FFCF5C; margin-top: 4px; }
+  .rows { margin-top: 18px; display: flex; flex-direction: column; gap: 12px; }
+  .row { display: flex; align-items: center; gap: 16px; border: 1px solid #1c3327; border-radius: 10px; padding: 14px 18px; font-size: 21px; background: #020609; }
+  .needle { color: #4DE8FF; font-weight: 700; width: 110px; }
+  .pass { color: #39FF88; font-weight: 700; width: 150px; }
+  .fail { color: #FF5C5C; font-weight: 700; width: 150px; }
+  .desc { color: #9fbcae; flex: 1; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="bar">
+      <span class="dot" style="background:#FF5C5C"></span>
+      <span class="dot" style="background:#FFCF5C"></span>
+      <span class="dot" style="background:#39FF88"></span>
+      <span class="title">score.gauge — reCAPTCHA v3</span>
+    </div>
+    <div class="body">
+      <h2>THE SCORE IS DECIDED BEFORE YOU CLICK</h2>
+      <div class="gauge">
+        <div class="scale">
+          <div class="lo"></div><div class="hi"></div>
+          <div class="marker"></div>
+        </div>
+        <div class="labels"><span>0.0</span><span>1.0</span></div>
+        <div class="thresh">▲ threshold 0.5 (documented default)</div>
+        <div class="rows">
+          <div class="row"><span class="needle">0.82</span><span class="pass">PASS</span><span class="desc">waved through — never see a thing</span></div>
+          <div class="row"><span class="needle">0.31</span><span class="fail">FAIL</span><span class="desc">get the pictures — traffic lights</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

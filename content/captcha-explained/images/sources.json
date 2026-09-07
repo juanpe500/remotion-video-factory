@@ -1,0 +1,40 @@
+{
+  "slug": "captcha-explained",
+  "jobs": [
+    {
+      "out": "hook-checkbox.jpg",
+      "type": "html",
+      "html": "mockups/hook-checkbox.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "reCAPTCHA widget already scoring you before the click"
+    },
+    {
+      "out": "step1-signals.jpg",
+      "type": "html",
+      "html": "mockups/step1-signals.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "the four signals being scored"
+    },
+    {
+      "out": "step2-pointer.jpg",
+      "type": "html",
+      "html": "mockups/step2-pointer.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "human wobbly pointer vs bot straight line"
+    },
+    {
+      "out": "step3-score.jpg",
+      "type": "html",
+      "html": "mockups/step3-score.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "reCAPTCHA score 0-1 with 0.5 threshold"
+    },
+    {
+      "out": "closer-hydrants.jpg",
+      "type": "html",
+      "html": "mockups/closer-hydrants.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "select all fire hydrants challenge grid"
+    }
+  ]
+}

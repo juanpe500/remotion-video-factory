@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #04070A; font-family: 'JetBrains Mono', ui-monospace, monospace; color: #d7ffe9; display: flex; align-items: center; justify-content: center; height: 100vh; }
+  .card { width: 920px; border: 1px solid #1c3327; border-radius: 16px; background: linear-gradient(180deg, #081511, #05100c); overflow: hidden; box-shadow: 0 24px 70px rgba(0,0,0,0.5); }
+  .bar { display: flex; align-items: center; gap: 9px; padding: 14px 20px; border-bottom: 1px solid #16261e; background: rgba(57,255,136,0.03); }
+  .dot { width: 12px; height: 12px; border-radius: 6px; }
+  .title { color: #5f7d6f; font-size: 22px; margin-left: 12px; }
+  .body { padding: 26px; }
+  h2 { color: #FF5C5C; font-size: 26px; margin-bottom: 6px; letter-spacing: 1px; }
+  .sub { color: #5f7d6f; font-size: 18px; margin-bottom: 18px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .cell { border: 2px solid #1c3327; border-radius: 10px; background: #020609; display: flex; align-items: center; justify-content: center; height: 170px; }
+  .cell.sel { border-color: #39FF88; box-shadow: 0 0 14px rgba(57,255,136,0.35); }
+  .cell .tag { position: absolute; }
+  .btn { margin-top: 18px; display: flex; align-items: center; justify-content: space-between; }
+  .verify { background: #39FF88; color: #04070A; font-family: inherit; font-size: 22px; font-weight: 700; padding: 12px 34px; border: none; border-radius: 8px; }
+  .skip { color: #5f7d6f; font-size: 18px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="bar">
+      <span class="dot" style="background:#FF5C5C"></span>
+      <span class="dot" style="background:#FFCF5C"></span>
+      <span class="dot" style="background:#39FF88"></span>
+      <span class="title">challenge.grid — you failed the score</span>
+    </div>
+    <div class="body">
+      <h2>SELECT ALL IMAGES WITH A FIRE HYDRANT</h2>
+      <div class="sub">score 0.31 → below 0.5 → welcome to the pictures</div>
+      <div class="grid">
+        <div class="cell sel">
+          <svg width="110" height="150" viewBox="0 0 110 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="25" y="55" width="60" height="80" rx="12" fill="#D64541"/>
+            <rect x="35" y="30" width="40" height="30" rx="8" fill="#B03A36"/>
+            <circle cx="55" cy="22" r="10" fill="#8E2B28"/>
+            <rect x="12" y="75" width="18" height="14" rx="5" fill="#C0392B"/>
+            <rect x="80" y="75" width="18" height="14" rx="5" fill="#C0392B"/>
+            <rect x="40" y="115" width="30" height="8" rx="4" fill="#7a1f1c"/>
+          </svg>
+        </div>
+        <div class="cell">
+          <svg width="110" height="150" viewBox="0 0 110 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="60" width="70" height="45" rx="8" fill="#5b7d6f"/>
+            <rect x="30" y="45" width="50" height="20" rx="6" fill="#4a6a5c"/>
+            <circle cx="38" cy="105" r="9" fill="#333"/>
+            <circle cx="72" cy="105" r="9" fill="#333"/>
+          </svg>
+        </div>
+        <div class="cell sel">
+          <svg width="110" height="150" viewBox="0 0 110 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="25" y="55" width="60" height="80" rx="12" fill="#D64541"/>
+            <rect x="35" y="30" width="40" height="30" rx="8" fill="#B03A36"/>
+            <circle cx="55" cy="22" r="10" fill="#8E2B28"/>
+            <rect x="12" y="75" width="18" height="14" rx="5" fill="#C0392B"/>
+            <rect x="80" y="75" width="18" height="14" rx="5" fill="#C0392B"/>
+            <rect x="40" y="115" width="30" height="8" rx="4" fill="#7a1f1c"/>
+          </svg>
+        </div>
+        <div class="cell">
+          <svg width="110" height="150" viewBox="0 0 110 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="55" cy="55" r="30" fill="#4DE8FF"/>
+            <rect x="45" y="85" width="20" height="45" rx="6" fill="#2f9db8"/>
+            <rect x="30" y="95" width="50" height="10" rx="4" fill="#2f9db8"/>
+          </svg>
+        </div>
+        <div class="cell">
+          <svg width="110" height="150" viewBox="0 0 110 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="25" y="55" width="60" height="80" rx="12" fill="#D64541"/>
+            <rect x="35" y="30" width="40" height="30" rx="8" fill="#B03A36"/>
+            <circle cx="55" cy="22" r="10" fill="#8E2B28"/>
+            <rect x="12" y="75" width="18" height="14" rx="5" fill="#C0392B"/>
+            <rect x="80" y="75" width="18" height="14" rx="5" fill="#C0392B"/>
+            <rect x="40" y="115" width="30" height="8" rx="4" fill="#7a1f1c"/>
+          </svg>
+        </div>
+        <div class="cell">
+          <svg width="110" height="150" viewBox="0 0 110 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="40" width="50" height="80" rx="6" fill="#FFCF5C"/>
+            <rect x="40" y="55" width="30" height="45" rx="4" fill="#e0b34a"/>
+            <circle cx="55" cy="130" r="8" fill="#333"/>
+          </svg>
+        </div>
+        <div class="cell sel">
+          <svg width="110" height="150" viewBox="0 0 110 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="25" y="55" width="60" height="80" rx="12" fill="#D64541"/>
+            <rect x="35" y="30" width="40" height="30" rx="8" fill="#B03A36"/>
+            <circle cx="55" cy="22" r="10" fill="#8E2B28"/>
+            <rect x="12" y="75" width="18" height="14" rx="5" fill="#C0392B"/>
+            <rect x="80" y="75" width="18" height="14" rx="5" fill="#C0392B"/>
+            <rect x="40" y="115" width="30" height="8" rx="4" fill="#7a1f1c"/>
+          </svg>
+        </div>
+        <div class="cell">
+          <svg width="110" height="150" viewBox="0 0 110 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="60" width="70" height="45" rx="8" fill="#5b7d6f"/>
+            <rect x="30" y="45" width="50" height="20" rx="6" fill="#4a6a5c"/>
+            <circle cx="38" cy="105" r="9" fill="#333"/>
+            <circle cx="72" cy="105" r="9" fill="#333"/>
+          </svg>
+        </div>
+        <div class="cell">
+          <svg width="110" height="150" viewBox="0 0 110 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="55" cy="55" r="30" fill="#4DE8FF"/>
+            <rect x="45" y="85" width="20" height="45" rx="6" fill="#2f9db8"/>
+            <rect x="30" y="95" width="50" height="10" rx="4" fill="#2f9db8"/>
+          </svg>
+        </div>
+      </div>
+      <div class="btn">
+        <button class="verify">VERIFY</button>
+        <span class="skip">Skip</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
