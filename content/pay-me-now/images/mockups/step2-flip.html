@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  :root {
+    --bg: #04070A; --green: #39FF88; --cyan: #4DE8FF;
+    --line: #16261e; --dim: #6f8a7d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1000px; height: 820px;
+    font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+    background:
+      radial-gradient(900px 500px at 80% -10%, rgba(77,232,255,0.10), transparent 60%),
+      radial-gradient(700px 600px at 8% 110%, rgba(57,255,136,0.08), transparent 55%),
+      var(--bg);
+    color: #dff5ea; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(57,255,136,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(57,255,136,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(circle at 50% 45%, black, transparent 72%);
+  }
+  .card { position: relative; width: 860px; background: linear-gradient(180deg, #0b1512, #070d0b);
+    border: 1px solid var(--line); border-top: 3px solid var(--green); border-radius: 16px;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.6); padding: 38px 44px; }
+  .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--green);
+    font-size: 15px; letter-spacing: 3px; text-transform: uppercase; opacity: .85; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
+  h1 { font-size: 34px; font-weight: 700; margin: 16px 0 8px; color: #f2fff8; letter-spacing: -0.5px; }
+  .lede { font-size: 16px; color: #a9c6ba; line-height: 1.55; }
+  .lede b { color: var(--cyan); }
+  .status { display: flex; align-items: center; justify-content: space-between;
+    margin: 26px 0 0; padding: 18px 20px; border: 1px solid #2b4436; background: #08110e; border-radius: 12px; }
+  .status .amt { font-size: 34px; font-weight: 700; color: #f2fff8; }
+  .status .tag { font-size: 14px; color: #ffcf5c; letter-spacing: 1px; }
+  .rows { margin-top: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .row { display: flex; justify-content: space-between; padding: 14px 16px;
+    background: #08110e; border: 1px solid var(--line); border-radius: 10px; font-size: 15px; }
+  .row .k { color: var(--dim); }
+  .row .v { color: #cfe7db; }
+  .row .v.good { color: var(--green); }
+  .callout { margin-top: 24px; padding: 14px 16px; border-left: 3px solid var(--cyan);
+    background: rgba(77,232,255,0.06); border-radius: 6px; color: #bfeaf3; font-size: 14px; }
+  .callout b { color: var(--green); }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="eyebrow"><span class="dot"></span> The flip</div>
+    <h1>Now they're not fighting me.</h1>
+    <p class="lede">They're not fighting the invoice anymore. <b>They're fighting to prove they're not broke.</b></p>
+
+    <div class="status">
+      <div>
+        <div class="tag">INVOICE STATUS</div>
+        <div class="amt" style="color:var(--green)">PAID</div>
+      </div>
+      <div style="text-align:right">
+        <div class="tag">TIME</div>
+        <div class="amt">SAME DAY</div>
+      </div>
+    </div>
+
+    <div class="rows">
+      <div class="row"><span class="k">Client</span><span class="v good">"I'm going to write you a check right now."</span></div>
+      <div class="row"><span class="k">Why</span><span class="v">Nobody wants to be the guy borrowing money to pay his plumber.</span></div>
+    </div>
+
+    <div class="callout">Watch how fast <b>that payment hits.</b></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face { font-family: 'JetBrains Mono'; src: local('JetBrains Mono'); }
+  :root {
+    --bg: #04070A; --green: #39FF88; --cyan: #4DE8FF;
+    --line: #16261e; --dim: #6f8a7d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1000px; height: 820px;
+    font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+    background:
+      radial-gradient(900px 500px at 80% -10%, rgba(77,232,255,0.10), transparent 60%),
+      radial-gradient(700px 600px at 8% 110%, rgba(57,255,136,0.08), transparent 55%),
+      var(--bg);
+    color: #dff5ea; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(57,255,136,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(57,255,136,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(circle at 50% 45%, black, transparent 72%);
+  }
+  .phone {
+    position: relative; width: 860px; background: #070d0b; border: 1px solid var(--line);
+    border-radius: 22px; overflow: hidden; box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+  }
+  .bar { display: flex; align-items: center; gap: 10px; padding: 18px 22px;
+    border-bottom: 1px solid var(--line); background: #0a1310; }
+  .bar .name { color: #f2fff8; font-size: 16px; font-weight: 700; }
+  .bar .sub { color: var(--dim); font-size: 12.5px; }
+  .msgs { padding: 30px 26px 36px; display: flex; flex-direction: column; gap: 16px; }
+  .bubble { max-width: 78%; padding: 15px 18px; border-radius: 14px; font-size: 15.5px; line-height: 1.5; }
+  .theirs { align-self: flex-start; background: #101b16; border: 1px solid var(--line); color: #cfe7db; }
+  .mine { align-self: flex-end; background: rgba(57,255,136,0.10); border: 1px solid #1e3d2c; color: #dff5ea; }
+  .mine b { color: var(--green); }
+  .mine.strong { border-color: var(--green); box-shadow: 0 0 30px rgba(57,255,136,0.10); }
+  .mine .no { color: #ffcf5c; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="bar">
+      <span style="width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)"></span>
+      <div><div class="name">The Client</div><div class="sub">Slow to pay</div></div>
+    </div>
+    <div class="msgs">
+      <div class="bubble theirs">"Money's a little tight this month, you understand, right?"</div>
+      <div class="bubble mine strong">Hey, listen. If money's tight, <b>I get it.</b> It happens.</div>
+      <div class="bubble mine"><span class="no">But I don't do payment plans.</span></div>
+      <div class="bubble mine">Talk to your bank. Borrow from a friend until you're back on your feet.</div>
+      <div class="bubble theirs" style="align-self:flex-end;background:transparent;border:none;color:var(--dim);font-size:13px;text-align:center">…</div>
+    </div>
+  </div>
+</body>
+</html>

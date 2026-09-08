@@ -1,0 +1,33 @@
+{
+  "slug": "pay-me-now",
+  "jobs": [
+    {
+      "out": "hook-invoice.jpg",
+      "type": "html",
+      "html": "mockups/hook-invoice.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "past-due service invoice + the slow client nitpicking for free work"
+    },
+    {
+      "out": "step1-calm.jpg",
+      "type": "html",
+      "html": "mockups/step1-calm.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "calm reply: if money's tight I get it, but no payment plans"
+    },
+    {
+      "out": "step2-flip.jpg",
+      "type": "html",
+      "html": "mockups/step2-flip.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "the flip: invoice paid same day, they prove they're not broke"
+    },
+    {
+      "out": "step3-deposit.jpg",
+      "type": "html",
+      "html": "mockups/step3-deposit.html",
+      "viewport": { "width": 1000, "height": 820 },
+      "note": "same trick on down payments: you decide if they qualify"
+    }
+  ]
+}
